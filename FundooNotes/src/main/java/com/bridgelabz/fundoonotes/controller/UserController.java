@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.bridgelabz.fundoonotes.dto.UserDto;
-import com.bridgelabz.funoonotes.response.Response;
-import com.bridgelabz.funoonotes.service.Services;
+import com.bridgelabz.fundoonotes.response.Response;
+import com.bridgelabz.fundoonotes.service.Services;
 
 public class UserController {
 @Autowired

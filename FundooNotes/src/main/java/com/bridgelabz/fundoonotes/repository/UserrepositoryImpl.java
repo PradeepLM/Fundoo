@@ -1,4 +1,4 @@
-package com.bridgelabz.funoonotes.repository;
+package com.bridgelabz.fundoonotes.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

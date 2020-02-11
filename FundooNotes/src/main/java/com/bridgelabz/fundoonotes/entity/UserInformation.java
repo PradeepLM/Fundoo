@@ -1,4 +1,4 @@
-package com.bridgelabz.funoonotes.entity;
+package com.bridgelabz.fundoonotes.entity;
 
 import java.time.LocalDateTime;
 
