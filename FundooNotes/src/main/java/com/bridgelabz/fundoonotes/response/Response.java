@@ -1,7 +1,5 @@
 package com.bridgelabz.fundoonotes.response;
 
-import com.bridgelabz.fundoonotes.dto.UserDto;
-
 import lombok.Data;
 
 @Data
