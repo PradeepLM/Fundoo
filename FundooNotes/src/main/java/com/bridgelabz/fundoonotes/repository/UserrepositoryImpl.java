@@ -27,7 +27,4 @@ public class UserrepositoryImpl implements UserRepository{
 		return (UserInformation) q.uniqueResult();
 	}
 
-	
-
-
 }
