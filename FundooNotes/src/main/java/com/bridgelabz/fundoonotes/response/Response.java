@@ -8,6 +8,12 @@ public class Response {
 	private int statuscode;
 	private Object obj;
 	
+	public Response(String message, int statuscode) {
+		this.message = message;
+		this.statuscode = statuscode;
+		
+	}
+	
 	public Response(String message, int statuscode, Object obj) {
 		this.message = message;
 		this.statuscode = statuscode;

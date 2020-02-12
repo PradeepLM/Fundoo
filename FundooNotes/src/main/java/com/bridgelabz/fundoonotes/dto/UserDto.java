@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Component
 public class UserDto {
+	
 	private long userId;
 	private String name;
 	private String email;

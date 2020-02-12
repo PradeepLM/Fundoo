@@ -8,6 +8,7 @@ public class FundooNoetsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FundooNoetsApplication.class, args);
+		System.out.println("Helllo");
 	}
 
 }

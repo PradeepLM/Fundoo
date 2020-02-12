@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.fundoonotes.entity.UserInformation;
@@ -18,6 +19,15 @@ public class UserrepositoryImpl implements UserRepository{
 		 session.saveOrUpdate(userInformation);
 		return userInformation;
 	}
+	@Override
+	public UserInformation getUser(String name) {
+		Session session = entityManager.unwrap(Session.class);
+		Query q = session.createQuery("FROM UserInformation where name=:name");
+		q.setParameter("name", name);
+		return (UserInformation) q.uniqueResult();
+	}
+
+	
 
 
 }
