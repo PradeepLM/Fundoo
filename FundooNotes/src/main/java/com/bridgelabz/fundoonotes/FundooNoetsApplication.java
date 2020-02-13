@@ -3,6 +3,8 @@ package com.bridgelabz.fundoonotes;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/*is equivalent to using @Configuration, @EnableAutoConfiguration,
+and @ComponentScan with their default attributes*/
 @SpringBootApplication
 public class FundooNoetsApplication {
 

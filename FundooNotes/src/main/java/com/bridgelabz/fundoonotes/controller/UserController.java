@@ -3,7 +3,7 @@ package com.bridgelabz.fundoonotes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,14 +15,15 @@ import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.response.UserDetail;
 import com.bridgelabz.fundoonotes.service.Services;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
-
+//It is a specialization of @Component is autodetected through classpath scanning.
 @RestController
 public class UserController {
-	@Autowired
+	@Autowired//This annotation allows Spring to resolve and inject collaborating beans into your bean
 	private Services service;
 	@Autowired
 	private JwtGenerator generate;
-
+	
+	//annotated methods handle the HTTP POST requests matched with given URI expression
 	@PostMapping("/user/register")
 	public ResponseEntity<Response> registration(@RequestBody UserDto information) {
 		boolean result = service.register(information);
@@ -33,10 +34,6 @@ public class UserController {
 
 	}
 	
-	@GetMapping("/hi")
-	public ResponseEntity<Response> display() {
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("I am getting the response", 200));
-	}
 	
 	
 	@PostMapping("/user/login")
@@ -49,6 +46,20 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).header("login sucessfully",information.getUsername()).body(new UserDetail(token, 200, information));
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserDetail("login failed", 400, information));
+		
+	}
+	
+	
+	
+	public ResponseEntity<Response> userVerification(@PathVariable ("token") String token) throws Exception{
+	
+		boolean update=service.verify(token);
+		if(update)
+		{
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified",200,token));
+		}
+		
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("not verified",400,token));
 		
 	}
 	

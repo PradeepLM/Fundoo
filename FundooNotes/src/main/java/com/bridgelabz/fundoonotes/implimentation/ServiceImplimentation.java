@@ -80,5 +80,14 @@ public class ServiceImplimentation implements Services {
 	public String generateToken(Long id) {
 		return generate.jwtToken(id);
 	}
+	
+	@Transactional
+	@Override
+	public boolean verify(String token) throws Exception {
+		System.out.println("id in verification" + (long) generate.parseJwt(token));
+		Long id = (long) generate.parseJwt(token);
+		repository.verify(id);
+		return true;
+	}
 
 }

@@ -11,7 +11,7 @@ public interface UserRepository {
 
 	//boolean upDate(PasswordUpdate information, Long id);
 
-	//boolean verify(Long id);
+	boolean verify(Long id);
 
 	//List<UserInformation> getUsers();
 }

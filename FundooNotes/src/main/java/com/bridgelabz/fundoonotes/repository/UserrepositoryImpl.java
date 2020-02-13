@@ -19,12 +19,28 @@ public class UserrepositoryImpl implements UserRepository{
 		 session.saveOrUpdate(userInformation);
 		return userInformation;
 	}
+	
+	
 	@Override
-	public UserInformation getUser(String name) {
+	public UserInformation getUser(String email) {
 		Session session = entityManager.unwrap(Session.class);
-		Query q = session.createQuery("FROM UserInformation where name=:name");
-		q.setParameter("name", name);
+		Query q = session.createQuery("FROM UserInformation where email=:email");
+		q.setParameter("email", email);
 		return (UserInformation) q.uniqueResult();
+	}
+	
+	
+	@Override
+	public boolean verify(Long id) {
+		Session session=entityManager.unwrap(Session.class);
+		Query qry=session.createQuery("update UserInformation set is_verified =:p\" + \" \" + \" \" + \" where id=:i");
+		qry.setParameter("p", true);
+		qry.setParameter("i", id);
+		int status=qry.executeUpdate();
+		if(status>0)
+		return true;
+		else
+		return false;
 	}
 
 }
