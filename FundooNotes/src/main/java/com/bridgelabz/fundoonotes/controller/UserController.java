@@ -12,6 +12,7 @@ import com.bridgelabz.fundoonotes.dto.LoginInformation;
 import com.bridgelabz.fundoonotes.dto.UserDto;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.response.Response;
+import com.bridgelabz.fundoonotes.response.UserDetail;
 import com.bridgelabz.fundoonotes.service.Services;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 
@@ -38,18 +39,18 @@ public class UserController {
 	}
 	
 	
-	/*@PostMapping("/user/login")
-	public ResponseEntity<Response> login(@RequestBody LoginInformation information)
+	@PostMapping("/user/login")
+	public ResponseEntity<UserDetail> login(@RequestBody LoginInformation information)
 	{
 		UserInformation userInformation=service.login(information);
 		if(userInformation!=null)
 		{
 			String token=generate.jwtToken(userInformation.getUserId());
-			return ResponseEntity.status(HttpStatus.ACCEPTED).header("login sucessfully",information.getUsername()).body(new Respons, statuscode))
+			return ResponseEntity.status(HttpStatus.ACCEPTED).header("login sucessfully",information.getUsername()).body(new UserDetail(token, 200, information));
 		}
-		return null;*/
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserDetail("login failed", 400, information));
 		
-	//}
+	}
 	
 	
 }

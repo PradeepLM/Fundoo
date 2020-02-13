@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.fundoonotes.dto.LoginInformation;
 import com.bridgelabz.fundoonotes.dto.UserDto;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
+import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
 import com.bridgelabz.fundoonotes.response.MailObject;
 import com.bridgelabz.fundoonotes.response.MailResponse;
@@ -48,8 +49,10 @@ public class ServiceImplimentation implements Services {
 			mailObject.setMessage(mailResponse);
 			mailObject.setSubject("verification");
 			MailServiceProvider.sendMail(mailObject.getEmail(), mailObject.getSubject(),mailObject.getMessage());
+			return true;
 		}
-		return true;
+		
+		throw new UserException("user already exists with the same mail id");
 	}
 	@Override
 	public UserInformation login(LoginInformation information) {
