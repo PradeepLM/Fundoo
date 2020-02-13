@@ -21,7 +21,7 @@ public class UserInformation {
 	private String email;
 	private String password;
 	private long mobileNumber;
-	private boolean isVerified;
+	private boolean isVerified=true;
 	private LocalDateTime createDate;
 
 	public long getUserId() {
