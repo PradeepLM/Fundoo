@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bridgelabz.fundoonotes.dto.LoginInformation;
 import com.bridgelabz.fundoonotes.dto.UserDto;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
@@ -49,6 +50,11 @@ public class ServiceImplimentation implements Services {
 			MailServiceProvider.sendMail(mailObject.getEmail(), mailObject.getSubject(),mailObject.getMessage());
 		}
 		return true;
+	}
+	@Override
+	public UserInformation login(LoginInformation information) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -28,6 +28,7 @@ public class MailServiceProvider {
 		prop.put("mail.smtp.auth","true");
 		prop.put("mail.smtp.host", "smtp.gmail.com");
 		prop.put("mail.smtp.port", "587");
+		prop.put("mail.smtp.starttls.enable", "true");
 		//Authenticator class is used in those cases
 		//where an authentication is required to visit some URL
 		Authenticator auth=new Authenticator() {
@@ -50,6 +51,7 @@ public class MailServiceProvider {
 			message.setText(body);
 			Transport.send(message);
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("exception occured while sending mail");
 		}
 	}
