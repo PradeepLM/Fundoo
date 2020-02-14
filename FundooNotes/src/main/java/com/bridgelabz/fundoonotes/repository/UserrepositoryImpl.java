@@ -1,7 +1,6 @@
 package com.bridgelabz.fundoonotes.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;

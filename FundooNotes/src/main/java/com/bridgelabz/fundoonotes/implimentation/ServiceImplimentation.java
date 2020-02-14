@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.validator.internal.constraintvalidators.hv.ISBNValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -91,4 +92,31 @@ public class ServiceImplimentation implements Services {
 		return true;
 	}
 
+	@Override
+	public boolean isUserExist(String email) {
+		try {
+		UserInformation user=repository.getUser(email);
+		if(user.isVerified()==true)
+		{
+			String mailRespone=response.fromMessage("http://localhost/8080/verify",generate.jwtToken(user.getUserId()));
+			MailServiceProvider.sendMail(user.getEmail(), "verification",mailRespone);
+			return true;
+		}else
+		{
+			return false;
+		}
+		
+	}catch (Exception e) {
+		throw new UserException("User doesn't exist");
+	}
 }
+}
+		
+		
+		
+		
+		
+		
+		
+		
+		

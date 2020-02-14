@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundoonotes.dto.LoginInformation;
@@ -24,8 +26,10 @@ public class UserController {
 	@Autowired
 	private JwtGenerator generate;
 	
+	/*api for registration*/
 	//annotated methods handle the HTTP POST requests matched with given URI expression
 	@PostMapping("/user/register")
+	// ResponseEntity represents the whole HTTP response: status code, headers, and body.
 	public ResponseEntity<Response> registration(@RequestBody UserDto information) {
 		boolean result = service.register(information);
 		if (result) {
@@ -35,8 +39,7 @@ public class UserController {
 
 	}
 	
-	
-	
+	/*api for login*/
 	@PostMapping("/user/login")
 	public ResponseEntity<UserDetail> login(@RequestBody LoginInformation information)
 	{
@@ -64,5 +67,18 @@ public class UserController {
 		
 	}
 	
+	/* API for for updating password with token */
+	@PutMapping("user/forgotpassword")
+	public ResponseEntity<Response> forgotPassword(@RequestParam("email") String  email)
+	{
+		System.out.println(email);
+		boolean result=service.isUserExist(email);
+		if(result) {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified", 2000,email));
+		}
+				
+		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("not verfied", 400, email));
+		
+	}
 	
 }
