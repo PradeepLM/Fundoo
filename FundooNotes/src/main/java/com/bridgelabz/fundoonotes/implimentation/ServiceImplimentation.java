@@ -62,16 +62,16 @@ public class ServiceImplimentation implements Services {
 	@Transactional
 	@Override
 	public UserInformation login(LoginInformation information) {
-		UserInformation user = repository.getUser(information.getUsername());
+		UserInformation user = repository.getUser(information.getEmail());
 		if (user != null) {
 			if ((user.isVerified() == true) && (enceryption.matches(information.getPassword(), user.getPassword())))
-				;
+				
 			System.out.println(generate.jwtToken(user.getUserId()));
 			return user;
 		} else {
 			String mailResponse = response.fromMessage("http://localhost:8080/verify",
 					generate.jwtToken(user.getUserId()));
-			MailServiceProvider.sendMail(information.getUsername(), "verification", mailResponse);
+			MailServiceProvider.sendMail(information.getEmail(), "verification", mailResponse);
 			return null;
 		}
 
@@ -86,6 +86,7 @@ public class ServiceImplimentation implements Services {
 	public boolean verify(String token) throws Exception {
 		System.out.println("id in verification" + (long) generate.parseJwt(token));
 		Long id = (long) generate.parseJwt(token);
+		
 		repository.verify(id);
 		return true;
 	}

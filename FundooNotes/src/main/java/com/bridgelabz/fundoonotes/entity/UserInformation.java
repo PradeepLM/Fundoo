@@ -2,6 +2,7 @@ package com.bridgelabz.fundoonotes.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,8 @@ public class UserInformation {
 	private String email;
 	private String password;
 	private long mobileNumber;
-	private boolean isVerified=true;
+	@Column(columnDefinition = "boolean default false",nullable = false)
+	private boolean isVerified;
 	private LocalDateTime createDate;
 
 	public long getUserId() {

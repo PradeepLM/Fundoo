@@ -3,6 +3,7 @@ package com.bridgelabz.fundoonotes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,14 +44,14 @@ public class UserController {
 		if(userInformation!=null)
 		{
 			String token=generate.jwtToken(userInformation.getUserId());
-			return ResponseEntity.status(HttpStatus.ACCEPTED).header("login sucessfully",information.getUsername()).body(new UserDetail(token, 200, information));
+			return ResponseEntity.status(HttpStatus.ACCEPTED).header("login sucessfully",information.getEmail()).body(new UserDetail(token, 200, information));
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserDetail("login failed", 400, information));
 		
 	}
 	
 	
-	
+	@GetMapping("/verify/{token}")
 	public ResponseEntity<Response> userVerification(@PathVariable ("token") String token) throws Exception{
 	
 		boolean update=service.verify(token);

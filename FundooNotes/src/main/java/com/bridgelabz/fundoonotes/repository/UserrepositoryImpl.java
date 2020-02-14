@@ -2,16 +2,19 @@ package com.bridgelabz.fundoonotes.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 
 @Repository
 public class UserrepositoryImpl implements UserRepository{
-	@PersistenceContext//inject an Entity Manager into their DAO classes.
+	//@PersistenceContext//inject an Entity Manager into their DAO classes.
+	@Autowired
 	private EntityManager entityManager;
 	@Override
 	public UserInformation save(UserInformation userInformation) {
@@ -33,14 +36,18 @@ public class UserrepositoryImpl implements UserRepository{
 	@Override
 	public boolean verify(Long id) {
 		Session session=entityManager.unwrap(Session.class);
-		Query qry=session.createQuery("update UserInformation set is_verified =:p\" + \" \" + \" \" + \" where id=:i");
+		//Query qry=session.createQuery("update UserInformation set is_verified =:p\" + \" \" + \" \" + \" where id=:i");
+		TypedQuery<UserInformation> qry = session.createQuery("update UserInformation set isVerified =:p where userId =:i");
 		qry.setParameter("p", true);
 		qry.setParameter("i", id);
-		int status=qry.executeUpdate();
-		if(status>0)
+		try {
+		qry.executeUpdate();
 		return true;
-		else
-		return false;
+		}
+		catch (Exception e) {
+				return false;
+		}
+		
 	}
 
 }
