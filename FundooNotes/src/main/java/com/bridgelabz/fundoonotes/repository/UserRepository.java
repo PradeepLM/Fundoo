@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.repository;
 
+import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 
 public interface UserRepository {
@@ -9,7 +10,7 @@ public interface UserRepository {
 
 	//UserInformation getUserById(Long id);
 
-	//boolean upDate(PasswordUpdate information, Long id);
+	boolean upDate(PasswordUpdate information, Long id);
 
 	boolean verify(Long id);
 

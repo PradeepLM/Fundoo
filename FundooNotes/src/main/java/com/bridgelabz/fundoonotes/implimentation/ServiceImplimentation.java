@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.validator.internal.constraintvalidators.hv.ISBNValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundoonotes.dto.LoginInformation;
+import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.dto.UserDto;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.exception.UserException;
@@ -88,8 +88,8 @@ public class ServiceImplimentation implements Services {
 		System.out.println("id in verification" + (long) generate.parseJwt(token));
 		Long id = (long) generate.parseJwt(token);
 		
-		repository.verify(id);
-		return true;
+		return repository.verify(id);
+		//return true;
 	}
 
 	@Override
@@ -110,6 +110,21 @@ public class ServiceImplimentation implements Services {
 		throw new UserException("User doesn't exist");
 	}
 }
+	@Transactional
+	@Override
+	public boolean update(PasswordUpdate information, String token) {
+		Long id=null;
+		try {
+			id=(Long)generate.parseJwt(token);
+		System.out.println(id);
+			String epassword=enceryption.encode(information.getConfirmPassword());
+			information.setConfirmPassword(epassword);
+			System.out.println(epassword);
+			return repository.upDate(information, id);
+		} catch (Exception e) {
+			throw new UserException("invalid password");
+		}
+	}
 }
 		
 		

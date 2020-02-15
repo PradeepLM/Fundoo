@@ -22,10 +22,14 @@ public class UserInformation {
 	private String email;
 	private String password;
 	private long mobileNumber;
-	@Column(columnDefinition = "boolean default false",nullable = false)
+	@Column(columnDefinition = "boolean default false", nullable = false)
 	private boolean isVerified;
 	private LocalDateTime createDate;
 
+	public String getName() {
+		return name;
+	}
+	
 	public long getUserId() {
 		return userId;
 	}
@@ -34,8 +38,12 @@ public class UserInformation {
 		this.userId = userId;
 	}
 
-	public String getName() {
-		return name;
+	public boolean isVerified() {
+		return isVerified;
+	}
+
+	public void setVerified(boolean isVerified) {
+		this.isVerified = isVerified;
 	}
 
 	public void setName(String name) {
@@ -64,14 +72,6 @@ public class UserInformation {
 
 	public void setMobileNumber(long mobileNumber) {
 		this.mobileNumber = mobileNumber;
-	}
-
-	public boolean isVerified() {
-		return isVerified;
-	}
-
-	public void setVerified(boolean isVerified) {
-		this.isVerified = isVerified;
 	}
 
 	public LocalDateTime getCreateDate() {

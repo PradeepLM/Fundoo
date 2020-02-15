@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.repository;
 
+import java.io.Serializable;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -8,10 +10,11 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 
 @Repository
-public class UserrepositoryImpl implements UserRepository{
+public class UserrepositoryImpl<T> implements UserRepository{
 	//@PersistenceContext//inject an Entity Manager into their DAO classes.
 	@Autowired
 	private EntityManager entityManager;
@@ -34,19 +37,40 @@ public class UserrepositoryImpl implements UserRepository{
 	
 	@Override
 	public boolean verify(Long id) {
+//		System.out.println("ID :"+id);
 		Session session=entityManager.unwrap(Session.class);
-		//Query qry=session.createQuery("update UserInformation set is_verified =:p\" + \" \" + \" \" + \" where id=:i");
-		TypedQuery<UserInformation> qry = session.createQuery("update UserInformation set isVerified =:p where userId =:i");
-		qry.setParameter("p", true);
-		qry.setParameter("i", id);
 		try {
-		qry.executeUpdate();
-		return true;
-		}
-		catch (Exception e) {
-				return false;
+		UserInformation user=(UserInformation) getCurrentNote(id);
+		user.setVerified(!user.isVerified());
+		session.update(user);
+		return true;}catch (Exception e) {
+			// TODO: handle exception
+			return false;
 		}
 		
+	}
+
+
+	@Override
+	public boolean upDate(PasswordUpdate information, Long id) {
+		Session session = entityManager.unwrap(Session.class);
+		Query q = session.createQuery("update UserInformation set password =:p" + " " + " " + "where userId=:i");
+		q.setParameter("p", information.getConfirmPassword());
+		q.setParameter("i", id);
+		int status = q.executeUpdate();
+		if (status > 0) {
+			return true;
+
+		} else {
+			return false;
+		}
+	}
+	
+	
+	public T getCurrentNote(Serializable value)
+	{
+		Session session = entityManager.unwrap(Session.class);
+		return (T) session.get(UserInformation.class,value);
 	}
 
 }
