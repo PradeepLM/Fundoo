@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.repository;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -14,18 +15,18 @@ import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 
 @Repository
-public class UserrepositoryImpl<T> implements UserRepository{
-	//@PersistenceContext//inject an Entity Manager into their DAO classes.
+public class UserrepositoryImpl<T> implements UserRepository {
+	// @PersistenceContext//inject an Entity Manager into their DAO classes.
 	@Autowired
 	private EntityManager entityManager;
+
 	@Override
 	public UserInformation save(UserInformation userInformation) {
-		 Session session=entityManager.unwrap(Session.class);
-		 session.saveOrUpdate(userInformation);
+		Session session = entityManager.unwrap(Session.class);
+		session.saveOrUpdate(userInformation);
 		return userInformation;
 	}
-	
-	
+
 	@Override
 	public UserInformation getUser(String email) {
 		Session session = entityManager.unwrap(Session.class);
@@ -33,28 +34,26 @@ public class UserrepositoryImpl<T> implements UserRepository{
 		q.setParameter("email", email);
 		return (UserInformation) q.uniqueResult();
 	}
-	
-	
+
 	@Override
 	public boolean verify(Long id) {
 //		System.out.println("ID :"+id);
-		Session session=entityManager.unwrap(Session.class);
+		Session session = entityManager.unwrap(Session.class);
 		try {
-		UserInformation user=(UserInformation) getCurrentNote(id);
-		user.setVerified(!user.isVerified());
-		session.update(user);
-		return true;}catch (Exception e) {
-			// TODO: handle exception
+			UserInformation user = (UserInformation) getCurrentNote(id);
+			user.setVerified(!user.isVerified());
+			session.update(user);
+			return true;
+		} catch (Exception e) {
 			return false;
 		}
-		
-	}
 
+	}
 
 	@Override
 	public boolean upDate(PasswordUpdate information, Long id) {
 		Session session = entityManager.unwrap(Session.class);
-		Query q = session.createQuery("update UserInformation set password =:p" + " " + " " + "where userId=:i");
+		Query q = session.createQuery("UPDATE UserInformation set password =:p" + " " + " " + "where userId=:i");
 		q.setParameter("p", information.getConfirmPassword());
 		q.setParameter("i", id);
 		int status = q.executeUpdate();
@@ -65,12 +64,17 @@ public class UserrepositoryImpl<T> implements UserRepository{
 			return false;
 		}
 	}
-	
-	
-	public T getCurrentNote(Serializable value)
-	{
+
+	public T getCurrentNote(Serializable value) {
 		Session session = entityManager.unwrap(Session.class);
-		return (T) session.get(UserInformation.class,value);
+		return (T) session.get(UserInformation.class, value);
+	}
+
+	@Override
+	public List<UserInformation> getUsers() {
+		Session session= entityManager.unwrap(Session.class);
+		List userLists=session.createQuery("FROM UserInformation").getResultList();
+		return userLists;
 	}
 
 }

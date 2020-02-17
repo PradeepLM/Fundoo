@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.implimentation;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -116,14 +117,29 @@ public class ServiceImplimentation implements Services {
 		Long id=null;
 		try {
 			id=(Long)generate.parseJwt(token);
-		System.out.println(id);
+			System.out.println(id);
 			String epassword=enceryption.encode(information.getConfirmPassword());
 			information.setConfirmPassword(epassword);
 			System.out.println(epassword);
 			return repository.upDate(information, id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new UserException("invalid password");
 		}
+	}
+	
+	@Transactional
+	@Override
+	public List<UserInformation> getUsers() {
+		List<UserInformation> users=repository.getUsers();
+		UserInformation user = users.get(0);
+		return users;
+	}
+
+	@Override
+	public UserInformation getsingleUser(String token) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 		

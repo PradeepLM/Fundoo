@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,7 +99,13 @@ public class UserController {
 	
 	
 	
-	
+	/*api getting all user details*/
+	@GetMapping("user/getusers")
+	public ResponseEntity<Response> getUsers(){
+		List<UserInformation> users=service.getUsers();
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("the users are", 200, users));
+		
+	}
 	
 	
 	
