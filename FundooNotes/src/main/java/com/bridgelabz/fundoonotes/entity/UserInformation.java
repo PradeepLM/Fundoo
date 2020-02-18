@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -25,6 +26,7 @@ public class UserInformation {
 	@Column(columnDefinition = "boolean default false", nullable = false)
 	private boolean isVerified;
 	private LocalDateTime createDate;
+	
 
 	public String getName() {
 		return name;

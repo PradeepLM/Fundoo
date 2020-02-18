@@ -104,17 +104,11 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("the users are", 200, users));
 
 	}
-	
-	/* api getting all user details*/
+
+	/* api getting all user details */
 	@GetMapping("user/getuser")
-	public ResponseEntity<Response> getoneUser(@RequestHeader ("token") String token){
+	public ResponseEntity<Response> getoneUser(@RequestHeader("token") String token) {
 		return service.getsingleUser(token);
 	}
-	
-	
-	
-	
-	
-	
 
 }
