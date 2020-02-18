@@ -8,19 +8,19 @@ import lombok.Data;
 @Component
 public class UserDto {
 
-	private long userId;
+	//private long userId;
 	private String name;
 	private String email;
 	private String password;
 	private long mobileNumber;
 
-	public long getUserId() {
+	/*public long getUserId() {
 		return userId;
 	}
 
 	public void setUserId(long userId) {
 		this.userId = userId;
-	}
+	}*/
 
 	public String getName() {
 		return name;

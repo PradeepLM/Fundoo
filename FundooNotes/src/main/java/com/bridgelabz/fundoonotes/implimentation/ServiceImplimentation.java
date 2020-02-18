@@ -2,11 +2,14 @@ package com.bridgelabz.fundoonotes.implimentation;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +21,14 @@ import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
 import com.bridgelabz.fundoonotes.response.MailObject;
 import com.bridgelabz.fundoonotes.response.MailResponse;
+import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.service.Services;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 import com.bridgelabz.fundoonotes.utility.MailServiceProvider;
+
+import ch.qos.logback.core.net.SyslogOutputStream;
+import io.swagger.models.RefResponse;
+import net.bytebuddy.asm.Advice.Return;
 
 @Service // used to write business logic in a different layerS
 public class ServiceImplimentation implements Services {
@@ -67,8 +75,8 @@ public class ServiceImplimentation implements Services {
 		UserInformation user = repository.getUser(information.getEmail());
 		if (user != null) {
 			if ((user.isVerified() == true) && (enceryption.matches(information.getPassword(), user.getPassword())))
-				
-			System.out.println(generate.jwtToken(user.getUserId()));
+			
+				System.out.println(generate.jwtToken(user.getUserId()));
 			return user;
 		} else {
 			String mailResponse = response.fromMessage("http://localhost:8080/verify",
@@ -82,72 +90,77 @@ public class ServiceImplimentation implements Services {
 	public String generateToken(Long id) {
 		return generate.jwtToken(id);
 	}
-	
+
 	@Transactional
 	@Override
 	public boolean verify(String token) throws Exception {
 		System.out.println("id in verification" + (long) generate.parseJwt(token));
 		Long id = (long) generate.parseJwt(token);
-		
+
 		return repository.verify(id);
-		//return true;
+		// return true;
 	}
 
 	@Override
 	public boolean isUserExist(String email) {
 		try {
-		UserInformation user=repository.getUser(email);
-		if(user.isVerified()==true)
-		{
-			String mailRespone=response.fromMessage("http://localhost/8080/verify",generate.jwtToken(user.getUserId()));
-			MailServiceProvider.sendMail(user.getEmail(), "verification",mailRespone);
-			return true;
-		}else
-		{
-			return false;
+			UserInformation user = repository.getUser(email);
+			if (user.isVerified() == true) {
+				String mailRespone = response.fromMessage("http://localhost/8080/verify",
+						generate.jwtToken(user.getUserId()));
+				MailServiceProvider.sendMail(user.getEmail(), "verification", mailRespone);
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (Exception e) {
+			throw new UserException("User doesn't exist");
 		}
-		
-	}catch (Exception e) {
-		throw new UserException("User doesn't exist");
 	}
-}
+
 	@Transactional
 	@Override
 	public boolean update(PasswordUpdate information, String token) {
-		Long id=null;
+		Long id = null;
 		try {
-			id=(Long)generate.parseJwt(token);
-			System.out.println(id);
-			String epassword=enceryption.encode(information.getConfirmPassword());
+			id = (Long) generate.parseJwt(token);
+			String epassword = enceryption.encode(information.getConfirmPassword());
 			information.setConfirmPassword(epassword);
-			System.out.println(epassword);
 			return repository.upDate(information, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException("invalid password");
 		}
 	}
-	
+
 	@Transactional
 	@Override
 	public List<UserInformation> getUsers() {
-		List<UserInformation> users=repository.getUsers();
+		List<UserInformation> users = repository.getUsers();
 		UserInformation user = users.get(0);
 		return users;
 	}
 
 	@Override
-	public UserInformation getsingleUser(String token) {
-		// TODO Auto-generated method stub
+	public ResponseEntity<Response> getsingleUser(String token) {
+		Long id;
+		UserInformation user ;
+		try {
+			id = (Long) generate.parseJwt(token);
+			System.out.println(id);
+			
+			Optional<UserInformation> user2 =Optional.ofNullable(repository.getUserById(id)); 
+//			System.out.println(user);
+			if(user2.isPresent()) {
+				System.out.println("single user"+user2.get().getEmail());
+			
+				return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("user found",202,user2));
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(new Response("user Not found",202,null));		}
+		
+		
 		return null;
 	}
 }
-		
-		
-		
-		
-		
-		
-		
-		
-		

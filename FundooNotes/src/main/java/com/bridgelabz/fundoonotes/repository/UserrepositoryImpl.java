@@ -2,8 +2,8 @@ package com.bridgelabz.fundoonotes.repository;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
@@ -18,6 +18,7 @@ import com.bridgelabz.fundoonotes.entity.UserInformation;
 public class UserrepositoryImpl<T> implements UserRepository {
 	// @PersistenceContext//inject an Entity Manager into their DAO classes.
 	@Autowired
+	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Override
@@ -41,7 +42,7 @@ public class UserrepositoryImpl<T> implements UserRepository {
 		Session session = entityManager.unwrap(Session.class);
 		try {
 			UserInformation user = (UserInformation) getCurrentNote(id);
-			user.setVerified(!user.isVerified());
+			user.setVerified(true);
 			session.update(user);
 			return true;
 		} catch (Exception e) {
@@ -53,13 +54,14 @@ public class UserrepositoryImpl<T> implements UserRepository {
 	@Override
 	public boolean upDate(PasswordUpdate information, Long id) {
 		Session session = entityManager.unwrap(Session.class);
-		Query q = session.createQuery("UPDATE UserInformation set password =:p" + " " + " " + "where userId=:i");
+		TypedQuery q = session.createQuery("UPDATE UserInformation set password =:p" + " " + " " + "where userId=:id");
 		q.setParameter("p", information.getConfirmPassword());
-		q.setParameter("i", id);
+		q.setParameter("id", id);
+		System.out.println("heloo");
 		int status = q.executeUpdate();
+		System.err.println("hii");
 		if (status > 0) {
 			return true;
-
 		} else {
 			return false;
 		}
@@ -72,9 +74,16 @@ public class UserrepositoryImpl<T> implements UserRepository {
 
 	@Override
 	public List<UserInformation> getUsers() {
-		Session session= entityManager.unwrap(Session.class);
-		List userLists=session.createQuery("FROM UserInformation").getResultList();
+		Session session = entityManager.unwrap(Session.class);
+		List userLists = session.createQuery("FROM UserInformation").getResultList();
 		return userLists;
 	}
 
+	@Override
+	public UserInformation getUserById(Long id) {
+		System.out.println(id);
+		Session session = entityManager.unwrap(Session.class);
+		return session.get(UserInformation.class, id);
+
+	}
 }
