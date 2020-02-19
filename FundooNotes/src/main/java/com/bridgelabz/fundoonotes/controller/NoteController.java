@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundoonotes.dto.NoteDto;
@@ -67,8 +68,13 @@ public class NoteController {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note deleted", 200));
 	}
 		
-	
-	
+	/*api for updating color to note*/
+	@PostMapping("/note/addcolor")
+	public ResponseEntity<Response> addColor(@RequestParam("noteId") Long noteId,@RequestParam("color") String color,@RequestHeader("token") String token){
+		service.addColor(noteId,token,color);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note color Changed",200));
+		
+	}
 	
 	
 	

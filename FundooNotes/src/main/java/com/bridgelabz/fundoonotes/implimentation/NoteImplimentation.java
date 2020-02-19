@@ -35,7 +35,7 @@ public class NoteImplimentation implements NoteService {
 	@Override
 	public void createNote(NoteDto information, String token) {
 		try {
-			Long userId = (long)tokenGenerator.parseJwt(token);
+			Long userId = (long) tokenGenerator.parseJwt(token);
 			user = repository.getUserById(userId);
 			if (user != null) {
 				noteInformation = modelMapper.map(information, NoteInformation.class);
@@ -58,7 +58,7 @@ public class NoteImplimentation implements NoteService {
 	@Override
 	public void updateNote(NoteUpdate information, String token) {
 		try {
-			Long userId = (long)tokenGenerator.parseJwt(token);
+			Long userId = (long) tokenGenerator.parseJwt(token);
 			user = repository.getUserById(userId);
 			NoteInformation noteinf = noteRepository.findById(information.getId());
 			if (user != null) {
@@ -70,41 +70,39 @@ public class NoteImplimentation implements NoteService {
 				noteinf.setPinned(information.isPinned());
 				noteinf.setUpDateAndTime(LocalDateTime.now());
 				noteRepository.save(noteinf);
-			}
-			else
+			} else
 				throw new UserException("user not prsent");
 		} catch (Exception e) {
 			throw new UserException("user is not register");
 		}
 	}
-	
-	
+
 	@Transactional
 	@Override
 	public void archievNote(Long id, String token) {
 		try {
-			Long userId = (long)tokenGenerator.parseJwt(token);
-			user=repository.getUserById(userId);
-			NoteInformation noteinf=noteRepository.findById(id);
-			if(noteinf!=null) {
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			NoteInformation noteinf = noteRepository.findById(id);
+			if (noteinf != null) {
 				noteinf.setPinned(false);
 				noteinf.setArchieved(!noteinf.isArchieved());
 				noteRepository.save(noteinf);
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			throw new UserException("user is not present");
 		}
 	}
-	
+
 	@Transactional
 	@Override
 	public void pin(Long id, String token) {
 		try {
-			Long userId = (long)tokenGenerator.parseJwt(token);
-			user=repository.getUserById(userId);
-			NoteInformation noteinf=noteRepository.findById(id);
-			if(noteinf!=null) {
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			NoteInformation noteinf = noteRepository.findById(id);
+			if (noteinf != null) {
 				noteinf.setArchieved(false);
 				noteinf.setPinned(!noteinf.isPinned());
 				noteRepository.save(noteinf);
@@ -114,49 +112,59 @@ public class NoteImplimentation implements NoteService {
 		}
 	}
 
-	
 	@Transactional
 	@Override
 	public void deleteNote(Long id, String token) {
 		try {
-			Long userId = (long)tokenGenerator.parseJwt(token);
-			user=repository.getUserById(userId);
-			NoteInformation noteinf=noteRepository.findById(id);
-			if(noteinf!=null) {
-			noteinf.setTrashed(!noteinf.isTrashed());
-			noteRepository.save(noteinf);
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			NoteInformation noteinf = noteRepository.findById(id);
+			if (noteinf != null) {
+				noteinf.setTrashed(!noteinf.isTrashed());
+				noteRepository.save(noteinf);
 			}
 		} catch (Exception e) {
-			throw new UserException("note is  trashed");
+			throw new UserException("note is not trashed");
 		}
 	}
-	
-	
-	
+
 	@Transactional
 	@Override
-	public boolean deletePermently(Long id,String token) {
+	public boolean deletePermently(Long id, String token) {
 		try {
-			Long userId = (long)tokenGenerator.parseJwt(token);
-			user=repository.getUserById(userId);
-			NoteInformation noteinf=noteRepository.findById(id);
-			if(noteinf!=null)
-			{
-				noteRepository.deleteNote(id,userId);
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			NoteInformation noteinf = noteRepository.findById(id);
+			if (noteinf != null) {
+				noteRepository.deleteNote(id, userId);
 			}
-			
+
 		} catch (Exception e) {
-			throw new UserException("note is deleted permently");
+			throw new UserException("note is not deleted permently");
 		}
 		return false;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
+	@Transactional
+	@Override
+	public void addColor(Long id, String token, String color) {
+		try {
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			if (user != null) {
+				NoteInformation noteinf = noteRepository.findById(id);
+				if (noteinf != null) {
+					noteinf.setColour(color);
+					noteRepository.save(noteinf);
+				} else {
+					throw new UserException("note does not exist");
+				}
+			} else {
+				throw new UserException("user does not exists");
+			}
+		} catch (Exception e) {
+			throw new UserException("error occured");
+		}
+	}
+
 }

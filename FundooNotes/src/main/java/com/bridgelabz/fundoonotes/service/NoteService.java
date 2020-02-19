@@ -16,4 +16,6 @@ public interface NoteService {
 
 	boolean deletePermently(Long id, String token);
 
+	void addColor(Long id, String token, String color);
+
 }
