@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.implimentation;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -164,6 +165,23 @@ public class NoteImplimentation implements NoteService {
 			}
 		} catch (Exception e) {
 			throw new UserException("error occured");
+		}
+	}
+
+	@Transactional
+	@Override
+	public List<NoteInformation> getArchieved(String token) {
+		try {
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			if (user != null) {
+				List<NoteInformation> list = noteRepository.getArchievedNotes(userId);
+				return list;
+			} else {
+				throw new UserException("user does not exist");
+			}
+		} catch (Exception e) {
+			throw new UserException("not get all archieve");
 		}
 	}
 

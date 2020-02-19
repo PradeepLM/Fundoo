@@ -1,7 +1,10 @@
 package com.bridgelabz.fundoonotes.service;
 
+import java.util.List;
+
 import com.bridgelabz.fundoonotes.dto.NoteDto;
 import com.bridgelabz.fundoonotes.dto.NoteUpdate;
+import com.bridgelabz.fundoonotes.entity.NoteInformation;
 
 public interface NoteService {
 	void createNote(NoteDto information, String token);
@@ -17,5 +20,7 @@ public interface NoteService {
 	boolean deletePermently(Long id, String token);
 
 	void addColor(Long id, String token, String color);
+
+	List<NoteInformation> getArchieved(String token);
 
 }

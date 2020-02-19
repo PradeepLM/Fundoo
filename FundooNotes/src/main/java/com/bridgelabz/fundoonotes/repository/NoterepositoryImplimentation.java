@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -36,6 +38,12 @@ public class NoterepositoryImplimentation implements NoteRepository{
 			return true;
 		}
 		return false;
+	}
+	@Override
+	public List<NoteInformation> getArchievedNotes(Long userId) {
+		Session session =entityManager.unwrap(Session.class);
+		List list=session.createQuery("FROM NoteInformation where id='"+userId+"'"+"and is_archieved=true").getResultList();
+		return list;
 	}
 
 }

@@ -1,9 +1,12 @@
 package com.bridgelabz.fundoonotes.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundoonotes.dto.NoteDto;
 import com.bridgelabz.fundoonotes.dto.NoteUpdate;
+import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.service.NoteService;
 @RestController
@@ -76,6 +80,13 @@ public class NoteController {
 		
 	}
 	
+	/*api for getting all archieve all notes*/
+	@GetMapping("/note/getArchieve/{id}")
+	public ResponseEntity<Response> getArchieve(@RequestHeader("token") String token){
+		List<NoteInformation> list=service.getArchieved(token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("archieve notes", 200,list));
+		
+	}
 	
 	
 	
