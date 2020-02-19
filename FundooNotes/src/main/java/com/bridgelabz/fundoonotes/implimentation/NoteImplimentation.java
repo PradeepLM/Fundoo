@@ -60,10 +60,7 @@ public class NoteImplimentation implements NoteService {
 		try {
 			Long userId = (long)tokenGenerator.parseJwt(token);
 			user = repository.getUserById(userId);
-			
 			NoteInformation noteinf = noteRepository.findById(information.getId());
-			System.out.println("Note Id "+noteinf.getId());
-			System.out.println("note color "+noteinf.getColour());
 			if (user != null) {
 				noteinf.setId(information.getId());
 				noteinf.setDescription(information.getDescription());
@@ -73,7 +70,9 @@ public class NoteImplimentation implements NoteService {
 				noteinf.setPinned(information.isPinned());
 				noteinf.setUpDateAndTime(LocalDateTime.now());
 				noteRepository.save(noteinf);
-			}throw new UserException("user not prsent");
+			}
+			else
+				throw new UserException("user not prsent");
 		} catch (Exception e) {
 			throw new UserException("user is not register");
 		}
@@ -83,17 +82,53 @@ public class NoteImplimentation implements NoteService {
 	@Transactional
 	@Override
 	public void archievNote(Long id, String token) {
-		NoteInformation note=noteRepository.findById(id);
-		note.setArchieved(!note.isArchieved());
-		noteRepository.save(note);
+		try {
+			Long userId = (long)tokenGenerator.parseJwt(token);
+			user=repository.getUserById(userId);
+			NoteInformation noteinf=noteRepository.findById(id);
+			if(noteinf!=null) {
+				noteinf.setPinned(false);
+				noteinf.setArchieved(!noteinf.isArchieved());
+				noteRepository.save(noteinf);
+			}
+			
+		}catch (Exception e) {
+			throw new UserException("user is not present");
+		}
 	}
 	
 	@Transactional
 	@Override
-	public void pin(long id, String token) {
-		NoteInformation note=noteRepository.findById(id);
-		note.setPinned(!note.isPinned());
-		noteRepository.save(note);
+	public void pin(Long id, String token) {
+		try {
+			Long userId = (long)tokenGenerator.parseJwt(token);
+			user=repository.getUserById(userId);
+			NoteInformation noteinf=noteRepository.findById(id);
+			if(noteinf!=null) {
+				noteinf.setArchieved(false);
+				noteinf.setPinned(!noteinf.isPinned());
+				noteRepository.save(noteinf);
+			}
+		} catch (Exception e) {
+			throw new UserException("user is not present");
+		}
+	}
+
+	
+	@Transactional
+	@Override
+	public void deleteNote(Long id, String token) {
+		try {
+			Long userId = (long)tokenGenerator.parseJwt(token);
+			user=repository.getUserById(userId);
+			NoteInformation noteinf=noteRepository.findById(id);
+			if(noteinf!=null) {
+			noteinf.setTrashed(!noteinf.isTrashed());
+			noteRepository.save(noteinf);
+			}
+		} catch (Exception e) {
+			throw new UserException("user is not present");
+		}
 	}
 
 }

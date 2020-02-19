@@ -3,6 +3,7 @@ package com.bridgelabz.fundoonotes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,16 +39,38 @@ public class NoteController {
 	
 	/* api for archieve a note*/
 	@PostMapping("/note/archieve/{id}")
-	public ResponseEntity<Response> archieve(@PathVariable long id,@RequestHeader ("token") String token){
+	public ResponseEntity<Response> archieve(@PathVariable Long id,@RequestHeader ("token") String token){
 		service.archievNote(id, token);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("note archieved", 200));
 	}
 	
 	/*api for pin a note*/
 	@PostMapping("/note/pin/{id}")
-	public ResponseEntity<Response> pin(@PathVariable long id,@RequestHeader ("token")String token ){
+	public ResponseEntity<Response> pin(@PathVariable Long id,@RequestHeader ("token")String token ){
 		service.pin(id,token);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("note pinned", 200));
 	}
+	
+	
+	/*api for delete a note*/
+	@DeleteMapping("/note/delete/{id}")
+	public ResponseEntity<Response> delete(@PathVariable Long id,@RequestHeader("token") String token){
+		service.deleteNote(id, token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note deleted", 200));
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
