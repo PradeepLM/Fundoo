@@ -27,5 +27,15 @@ public class NoterepositoryImplimentation implements NoteRepository{
 		qry.setParameter("id", id);
 		return (NoteInformation) qry.uniqueResult();
 	}
+	@Override
+	public boolean deleteNote(Long id, Long userId) {
+		Session session=entityManager.unwrap(Session.class);
+		Query qry=session.createQuery("DELETE from NoteInformation where id=:id").setParameter("id", id);
+		int result=qry.executeUpdate();
+		if(result>=1) {
+			return true;
+		}
+		return false;
+	}
 
 }

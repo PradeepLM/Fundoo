@@ -127,8 +127,36 @@ public class NoteImplimentation implements NoteService {
 			noteRepository.save(noteinf);
 			}
 		} catch (Exception e) {
-			throw new UserException("user is not present");
+			throw new UserException("note is  trashed");
 		}
 	}
+	
+	
+	
+	@Transactional
+	@Override
+	public boolean deletePermently(Long id,String token) {
+		try {
+			Long userId = (long)tokenGenerator.parseJwt(token);
+			user=repository.getUserById(userId);
+			NoteInformation noteinf=noteRepository.findById(id);
+			if(noteinf!=null)
+			{
+				noteRepository.deleteNote(id,userId);
+			}
+			
+		} catch (Exception e) {
+			throw new UserException("note is deleted permently");
+		}
+		return false;
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
 }

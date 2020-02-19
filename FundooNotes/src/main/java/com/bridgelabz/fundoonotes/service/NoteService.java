@@ -13,4 +13,7 @@ public interface NoteService {
 	void pin(Long id, String token);
 
 	void deleteNote(Long id, String token);
+
+	boolean deletePermently(Long id, String token);
+
 }

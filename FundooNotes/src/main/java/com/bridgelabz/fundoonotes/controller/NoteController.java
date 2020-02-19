@@ -60,6 +60,15 @@ public class NoteController {
 		
 	}
 	
+	/*api for delete a note permently*/
+	@DeleteMapping("/note/deletePermently/{id}")
+	public ResponseEntity<Response> deletePerment(@PathVariable Long id,@RequestHeader("token") String token){
+		service.deletePermently(id,token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note deleted", 200));
+	}
+		
+	
+	
 	
 	
 	
