@@ -9,4 +9,6 @@ public interface NoteService {
 	void updateNote(NoteUpdate note, String token);
 
 	void archievNote(Long id, String token);
+
+	void pin(long id, String token);
 }

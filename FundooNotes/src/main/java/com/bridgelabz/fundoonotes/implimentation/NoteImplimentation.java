@@ -35,7 +35,7 @@ public class NoteImplimentation implements NoteService {
 	@Override
 	public void createNote(NoteDto information, String token) {
 		try {
-			Long userId = tokenGenerator.parseJwt(token);
+			Long userId = (long)tokenGenerator.parseJwt(token);
 			user = repository.getUserById(userId);
 			if (user != null) {
 				noteInformation = modelMapper.map(information, NoteInformation.class);
@@ -44,6 +44,7 @@ public class NoteImplimentation implements NoteService {
 				noteInformation.setPinned(false);
 				noteInformation.setTrashed(false);
 				noteInformation.setColour("yellow");
+				noteInformation.setUpDateAndTime(LocalDateTime.now());
 				NoteInformation note = noteRepository.save(noteInformation);
 
 			}
@@ -57,19 +58,17 @@ public class NoteImplimentation implements NoteService {
 	@Override
 	public void updateNote(NoteUpdate information, String token) {
 		try {
-			Long userId = tokenGenerator.parseJwt(token);
+			Long userId = (long)tokenGenerator.parseJwt(token);
 			user = repository.getUserById(userId);
-			NoteInformation noteinf = noteRepository.findById(userId);
-			System.out.println("notesingf" + noteinf);
+			
+			NoteInformation noteinf = noteRepository.findById(information.getId());
+			System.out.println("Note Id "+noteinf.getId());
+			System.out.println("note color "+noteinf.getColour());
 			if (user != null) {
 				noteinf.setId(information.getId());
-				System.out.println("jjj");
 				noteinf.setDescription(information.getDescription());
-				System.out.println("kkk");
 				noteinf.setTitle(information.getTitle());
-				System.out.println("aha");
 				noteinf.setArchieved(information.isArchieved());
-				System.out.println("ppp");
 				noteinf.setTrashed(information.isTrashed());
 				noteinf.setPinned(information.isPinned());
 				noteinf.setUpDateAndTime(LocalDateTime.now());
@@ -79,11 +78,21 @@ public class NoteImplimentation implements NoteService {
 			throw new UserException("user is not register");
 		}
 	}
+	
+	
 	@Transactional
 	@Override
 	public void archievNote(Long id, String token) {
 		NoteInformation note=noteRepository.findById(id);
 		note.setArchieved(!note.isArchieved());
+		noteRepository.save(note);
+	}
+	
+	@Transactional
+	@Override
+	public void pin(long id, String token) {
+		NoteInformation note=noteRepository.findById(id);
+		note.setPinned(!note.isPinned());
 		noteRepository.save(note);
 	}
 

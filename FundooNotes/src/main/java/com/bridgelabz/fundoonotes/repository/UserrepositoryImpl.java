@@ -81,9 +81,9 @@ public class UserrepositoryImpl<T> implements UserRepository {
 
 	@Override
 	public UserInformation getUserById(Long id) {
-		System.out.println(id);
 		Session session = entityManager.unwrap(Session.class);
-		return session.get(UserInformation.class, id);
-
+		Query q = session.createQuery(" FROM UserInformation where id=:id");
+		q.setParameter("id", id);
+		return (UserInformation) q.uniqueResult();
 	}
 }

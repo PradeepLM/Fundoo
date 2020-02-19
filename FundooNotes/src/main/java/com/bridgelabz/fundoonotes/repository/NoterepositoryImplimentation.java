@@ -23,7 +23,7 @@ public class NoterepositoryImplimentation implements NoteRepository{
 	@Override
 	public NoteInformation findById(Long id) {
 		Session session = entityManager.unwrap(Session.class);
-		Query qry=session.createQuery("FROM NotesInfo where id=:id");
+		Query qry=session.createQuery("from NotesInformation where id=:id");
 		qry.setParameter("id", id);
 		return (NoteInformation) qry.uniqueResult();
 	}

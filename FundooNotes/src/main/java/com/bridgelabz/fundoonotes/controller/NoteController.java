@@ -39,9 +39,15 @@ public class NoteController {
 	/* api for archieve a note*/
 	@PostMapping("/note/archieve/{id}")
 	public ResponseEntity<Response> archieve(@PathVariable long id,@RequestHeader ("token") String token){
-		System.out.println("inside delete controller" + id);
 		service.archievNote(id, token);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("note archieved", 200));
+	}
+	
+	/*api for pin a note*/
+	@PostMapping("/note/pin/{id}")
+	public ResponseEntity<Response> pin(@PathVariable long id,@RequestHeader ("token")String token ){
+		service.pin(id,token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("note pinned", 200));
 	}
 	
 }
