@@ -3,6 +3,7 @@ package com.bridgelabz.fundoonotes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,4 +34,14 @@ public class NoteController {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note updated", 200, note));
 		
 	}
+	
+	
+	/* api for archieve a note*/
+	@PostMapping("/note/archieve/{id}")
+	public ResponseEntity<Response> archieve(@PathVariable long id,@RequestHeader ("token") String token){
+		System.out.println("inside delete controller" + id);
+		service.archievNote(id, token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("note archieved", 200));
+	}
+	
 }

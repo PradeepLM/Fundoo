@@ -7,4 +7,6 @@ public interface NoteService {
 	void createNote(NoteDto information, String token);
 
 	void updateNote(NoteUpdate note, String token);
+
+	void archievNote(Long id, String token);
 }

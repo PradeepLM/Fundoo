@@ -79,5 +79,12 @@ public class NoteImplimentation implements NoteService {
 			throw new UserException("user is not register");
 		}
 	}
+	@Transactional
+	@Override
+	public void archievNote(Long id, String token) {
+		NoteInformation note=noteRepository.findById(id);
+		note.setArchieved(!note.isArchieved());
+		noteRepository.save(note);
+	}
 
 }
