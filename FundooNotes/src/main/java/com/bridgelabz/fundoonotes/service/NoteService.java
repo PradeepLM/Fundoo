@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bridgelabz.fundoonotes.dto.NoteDto;
 import com.bridgelabz.fundoonotes.dto.NoteUpdate;
+import com.bridgelabz.fundoonotes.dto.RemainderDto;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 
 public interface NoteService {
@@ -26,5 +27,7 @@ public interface NoteService {
 	List<NoteInformation> getTrashed(String token);
 
 	List<NoteInformation> getAllNotes(String token);
+
+	void addReminder(Long noteId, String token, RemainderDto remainder);
 
 }

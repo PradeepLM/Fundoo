@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundoonotes.dto.NoteDto;
 import com.bridgelabz.fundoonotes.dto.NoteUpdate;
+import com.bridgelabz.fundoonotes.dto.RemainderDto;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.exception.UserException;
@@ -213,6 +214,24 @@ public class NoteImplimentation implements NoteService {
 				return list;
 			}
 			throw new UserException("user dosn't exit");
+		} catch (Exception e) {
+			throw new UserException("error occured");
+		}
+	}
+	@Transactional
+	@Override
+	public void addReminder(Long noteId, String token, RemainderDto remainder) {
+		try {
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			NoteInformation noteinf = noteRepository.findById(noteId);
+			if(noteinf!=null) {
+				noteinf.setReminder(remainder.getReminder());
+				noteRepository.save(noteinf);
+			}
+			else {
+				throw new UserException("note dosn't exit");
+			}
 		} catch (Exception e) {
 			throw new UserException("error occured");
 		}
