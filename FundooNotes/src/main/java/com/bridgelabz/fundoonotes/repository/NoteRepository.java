@@ -13,4 +13,8 @@ public interface NoteRepository {
 
 	List<NoteInformation> getArchievedNotes(Long userId);
 
+	List<NoteInformation> getTrashedNotes(Long userId);
+
+	List<NoteInformation> getAllNotes(Long userId);
+
 }

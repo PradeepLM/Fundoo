@@ -23,4 +23,8 @@ public interface NoteService {
 
 	List<NoteInformation> getArchieved(String token);
 
+	List<NoteInformation> getTrashed(String token);
+
+	List<NoteInformation> getAllNotes(String token);
+
 }

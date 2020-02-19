@@ -185,4 +185,37 @@ public class NoteImplimentation implements NoteService {
 		}
 	}
 
+	@Transactional
+	@Override
+	public List<NoteInformation> getTrashed(String token) {
+		try {
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			if (user != null) {
+				List<NoteInformation> list = noteRepository.getTrashedNotes(userId);
+				return list;
+			} else {
+				throw new UserException("user does not exist");
+			}
+		} catch (Exception e) {
+			throw new UserException("error occured");
+		}
+	}
+
+	@Transactional
+	@Override
+	public List<NoteInformation> getAllNotes(String token) {
+		try {
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			if (user != null) {
+				List<NoteInformation> list = noteRepository.getAllNotes(userId);
+				return list;
+			}
+			throw new UserException("user dosn't exit");
+		} catch (Exception e) {
+			throw new UserException("error occured");
+		}
+	}
+
 }

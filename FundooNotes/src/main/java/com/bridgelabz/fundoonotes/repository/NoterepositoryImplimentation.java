@@ -45,5 +45,17 @@ public class NoterepositoryImplimentation implements NoteRepository{
 		List list=session.createQuery("FROM NoteInformation where id='"+userId+"'"+"and is_archieved=true").getResultList();
 		return list;
 	}
+	@Override
+	public List<NoteInformation> getTrashedNotes(Long userId) {
+		Session session =entityManager.unwrap(Session.class);
+		List list = session.createQuery("from NoteInformation where id='" + userId + "'" + "and is_trashed=true").getResultList();
+		return list;
+	}
+	@Override
+	public List<NoteInformation> getAllNotes(Long userId) {
+		Session session =entityManager.unwrap(Session.class);
+		List list=session.createQuery("FROM NoteInformation where id='"+userId+"'"+"and is_trashed=false and is_archieved=false ORDER BY id DESC").getResultList();
+		return list;
+	}
 
 }
