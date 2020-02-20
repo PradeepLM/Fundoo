@@ -111,6 +111,14 @@ public class NoteController {
 		
 	}
 	
+	/*api for removing reminder to notes*/
+	@PutMapping("/note/removeReminder/{id}")
+	public ResponseEntity<Response> removeRemainder(@RequestHeader("token") String token,@RequestParam ("noteId") Long noteId,@RequestBody RemainderDto remainder){
+		service.removeReminder(noteId, token, remainder);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Reminder Notes", 200,remainder));
+		
+	}
+	
 	
 	
 	

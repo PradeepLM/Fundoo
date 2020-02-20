@@ -30,4 +30,6 @@ public interface NoteService {
 
 	void addReminder(Long noteId, String token, RemainderDto remainder);
 
+	void removeReminder(Long noteId, String token, RemainderDto remainder);
+
 }

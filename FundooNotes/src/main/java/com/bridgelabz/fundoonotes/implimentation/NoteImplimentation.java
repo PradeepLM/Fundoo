@@ -236,5 +236,27 @@ public class NoteImplimentation implements NoteService {
 			throw new UserException("error occured");
 		}
 	}
+	
+	@Transactional
+	@Override
+	public void removeReminder(Long noteId, String token, RemainderDto remainder) {
+		try {
+			Long userId = (long) tokenGenerator.parseJwt(token);
+			user = repository.getUserById(userId);
+			NoteInformation noteinf = noteRepository.findById(noteId);
+			if(noteinf!=null) {
+				noteinf.setReminder(null);
+				noteRepository.save(noteinf);
+			}
+		} catch (Exception e) {
+			throw new UserException("error occured");
+		}
+	}
+	
+	
+	
+	
+	
+	
 
 }
