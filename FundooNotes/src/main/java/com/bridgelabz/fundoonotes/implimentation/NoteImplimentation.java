@@ -218,6 +218,7 @@ public class NoteImplimentation implements NoteService {
 			throw new UserException("error occured");
 		}
 	}
+
 	@Transactional
 	@Override
 	public void addReminder(Long noteId, String token, RemainderDto remainder) {
@@ -225,18 +226,17 @@ public class NoteImplimentation implements NoteService {
 			Long userId = (long) tokenGenerator.parseJwt(token);
 			user = repository.getUserById(userId);
 			NoteInformation noteinf = noteRepository.findById(noteId);
-			if(noteinf!=null) {
+			if (noteinf != null) {
 				noteinf.setReminder(remainder.getReminder());
 				noteRepository.save(noteinf);
-			}
-			else {
+			} else {
 				throw new UserException("note dosn't exit");
 			}
 		} catch (Exception e) {
 			throw new UserException("error occured");
 		}
 	}
-	
+
 	@Transactional
 	@Override
 	public void removeReminder(Long noteId, String token, RemainderDto remainder) {
@@ -244,19 +244,15 @@ public class NoteImplimentation implements NoteService {
 			Long userId = (long) tokenGenerator.parseJwt(token);
 			user = repository.getUserById(userId);
 			NoteInformation noteinf = noteRepository.findById(noteId);
-			if(noteinf!=null) {
+			if (noteinf != null) {
 				noteinf.setReminder(null);
 				noteRepository.save(noteinf);
+			} else {
+				throw new UserException("user doesnot exit");
 			}
 		} catch (Exception e) {
 			throw new UserException("error occured");
 		}
 	}
-	
-	
-	
-	
-	
-	
 
 }

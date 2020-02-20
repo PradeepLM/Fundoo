@@ -1,10 +1,14 @@
 package com.bridgelabz.fundoonotes.entity;
 
 import java.time.LocalDateTime;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -34,8 +38,8 @@ public class NoteInformation {
 	private String colour;
 
 	private LocalDateTime reminder;
-
 	
+		
 	public Long getId() {
 		return id;
 	}
