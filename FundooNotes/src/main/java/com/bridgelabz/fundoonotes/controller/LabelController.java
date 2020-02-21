@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundoonotes.dto.LabelDto;
+import com.bridgelabz.fundoonotes.dto.LabelUpdate;
 import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.service.LabelService;
 
@@ -44,7 +46,26 @@ public class LabelController {
 	public ResponseEntity<Response> removeLabel(@RequestParam("labelId") Long labelId,
 			@RequestHeader("token") String token, @RequestParam("noteId") Long noteId) {
 		service.removeLabel(labelId, token, noteId);		
-		return null;
-
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("label is removed", 200));
 	}
+	
+	
+	/* api for update the label*/
+	@PutMapping("/label/update")
+	public ResponseEntity<Response> updateLabel(@RequestBody LabelUpdate label,@RequestHeader ("token") String token){
+		service.updateLabel(label,token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("label is updated", 200,label));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

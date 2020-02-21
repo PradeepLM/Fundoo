@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundoonotes.dto.LabelDto;
+import com.bridgelabz.fundoonotes.dto.LabelUpdate;
 import com.bridgelabz.fundoonotes.entity.LabelInformation;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
@@ -32,7 +33,7 @@ public class LabelImplimentation implements LabelService {
 	@Autowired
 	private NoteRepository noterepository;
 	private LabelInformation labelInformation;
-	
+
 	@Transactional
 	@Override
 	public void createLabel(LabelDto label, String token) {
@@ -56,21 +57,46 @@ public class LabelImplimentation implements LabelService {
 			throw new UserException("Note doesn't exit with userId");
 		}
 	}
+
 	@Transactional
 	@Override
 	public void addLabel(Long labelId, String token, Long noteId) {
-		NoteInformation note=noterepository.findById(noteId);
-		LabelInformation label=labelRepository.fetchLabelById(labelId);
+		NoteInformation note = noterepository.findById(noteId);
+		LabelInformation label = labelRepository.fetchLabelById(labelId);
 		label.getList().add(note);
 		labelRepository.save(label);
 	}
+
 	@Transactional
 	@Override
 	public void removeLabel(Long labelId, String token, Long noteId) {
-		NoteInformation note=noterepository.findById(noteId);
-		LabelInformation label=labelRepository.fetchLabelById(labelId);
+		NoteInformation note = noterepository.findById(noteId);
+		LabelInformation label = labelRepository.fetchLabelById(labelId);
 		label.getList().remove(note);
 		labelRepository.save(label);
+	}
+
+	@Transactional
+	@Override
+	public void updateLabel(LabelUpdate label, String token) {
+		Long id = null;
+		try {
+			id = tokenGenrator.parseJwt(token);
+		} catch (Exception e) {
+			throw new UserException("user does not exist");
+		}
+		UserInformation user = userRepository.getUserById(id);
+		if (user != null) {
+			LabelInformation labelinfo = labelRepository.fetchLabelById(label.getLabelId());
+			if (labelinfo != null) {
+				labelinfo.setName(label.getLabelName());
+				labelRepository.save(labelinfo);
+			} else {
+				throw new UserException("Name with label dosn't exit");
+			}
+		} else {
+			throw new UserException("user dosn't exit");
+		}
 	}
 
 }
