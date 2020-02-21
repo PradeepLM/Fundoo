@@ -28,4 +28,12 @@ public class LabelRepositoryImplimentation implements LabelRepository{
 		return labelInformation;
 	}
 
+	@Override
+	public LabelInformation fetchLabelById(Long labeId) {
+		Session session =entityManager.unwrap(Session.class);
+		Query qry=session.createQuery("FROM LabelInformation where LabelId=:id");
+		qry.setParameter("id", labeId);
+		return (LabelInformation) qry.uniqueResult();
+	}
+
 }

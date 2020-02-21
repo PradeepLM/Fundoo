@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundoonotes.dto.LabelDto;
 import com.bridgelabz.fundoonotes.entity.LabelInformation;
+import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.repository.LabelRepository;
@@ -54,6 +55,14 @@ public class LabelImplimentation implements LabelService {
 		} else {
 			throw new UserException("Note doesn't exit with userId");
 		}
+	}
+	@Transactional
+	@Override
+	public void addLabel(Long labeId, String token, Long noteId) {
+		NoteInformation note=noterepository.findById(noteId);
+		LabelInformation label=labelRepository.fetchLabelById(labeId);
+		label.getList().add(note);
+		labelRepository.save(label);
 	}
 
 }

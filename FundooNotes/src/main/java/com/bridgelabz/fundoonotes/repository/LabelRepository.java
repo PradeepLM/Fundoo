@@ -7,4 +7,6 @@ public interface LabelRepository {
 
 	LabelInformation save(LabelInformation labelInformation);
 
+	LabelInformation fetchLabelById(Long labeId);
+
 }
