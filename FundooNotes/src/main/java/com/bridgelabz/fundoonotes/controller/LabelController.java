@@ -30,10 +30,21 @@ public class LabelController {
 	}
 
 	/* api for add label with note */
+	@ApiOperation(value = "its added label to note api", response = Response.class)
 	@PostMapping("/label/addLabel")
-	public ResponseEntity<Response> addLabel(@RequestParam("labelId") Long labeId,
-			@RequestHeader("token") String token, @RequestParam("noteId") Long noteId) {
-		service.addLabel(labeId, token, noteId);
+	public ResponseEntity<Response> addLabel(@RequestParam("labelId") Long labelId, @RequestHeader("token") String token,
+			@RequestParam("noteId") Long noteId) {
+		service.addLabel(labelId, token, noteId);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("label added", 200));
+	}
+
+	/* api for remove the label with note */
+	@ApiOperation(value = "its remove label to note api", response = Response.class)
+	@PostMapping("/label/remove")
+	public ResponseEntity<Response> removeLabel(@RequestParam("labelId") Long labelId,
+			@RequestHeader("token") String token, @RequestParam("noteId") Long noteId) {
+		service.removeLabel(labelId, token, noteId);		
+		return null;
+
 	}
 }

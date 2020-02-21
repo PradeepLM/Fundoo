@@ -6,6 +6,8 @@ public interface LabelService {
 
 	void createLabel(LabelDto label, String token);
 
-	void addLabel(Long labeId, String token, Long noteId);
+	void addLabel(Long labelId, String token, Long noteId);
+
+	void removeLabel(Long labelId, String token, Long noteId);
 
 }

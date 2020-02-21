@@ -58,10 +58,18 @@ public class LabelImplimentation implements LabelService {
 	}
 	@Transactional
 	@Override
-	public void addLabel(Long labeId, String token, Long noteId) {
+	public void addLabel(Long labelId, String token, Long noteId) {
 		NoteInformation note=noterepository.findById(noteId);
-		LabelInformation label=labelRepository.fetchLabelById(labeId);
+		LabelInformation label=labelRepository.fetchLabelById(labelId);
 		label.getList().add(note);
+		labelRepository.save(label);
+	}
+	@Transactional
+	@Override
+	public void removeLabel(Long labelId, String token, Long noteId) {
+		NoteInformation note=noterepository.findById(noteId);
+		LabelInformation label=labelRepository.fetchLabelById(labelId);
+		label.getList().remove(note);
 		labelRepository.save(label);
 	}
 
