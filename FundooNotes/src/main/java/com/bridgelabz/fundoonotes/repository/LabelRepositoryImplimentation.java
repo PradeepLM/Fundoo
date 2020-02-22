@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -44,6 +46,14 @@ public class LabelRepositoryImplimentation implements LabelRepository{
 		int result=qry.executeUpdate();
 		return result;
 		
+	}
+
+	@Override
+	public List<LabelInformation> getAllLabels(Long id) {
+		Session session=entityManager.unwrap(Session.class);
+		//Query qry=session.createQuery("FROM LabelInformation where UserId=:id");
+		//qry.setParameter("id", id); 
+		return session.createQuery("FROM LabelInformation where UserId='"+id+"'").getResultList();
 	}
 
 }

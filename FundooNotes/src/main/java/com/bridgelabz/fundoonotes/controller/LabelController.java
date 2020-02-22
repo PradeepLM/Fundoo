@@ -1,9 +1,12 @@
 package com.bridgelabz.fundoonotes.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundoonotes.dto.LabelDto;
 import com.bridgelabz.fundoonotes.dto.LabelUpdate;
+import com.bridgelabz.fundoonotes.entity.LabelInformation;
+import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.service.LabelService;
 
@@ -52,7 +57,7 @@ public class LabelController {
 	
 	
 	/* api for update the label*/
-	@ApiOperation(value = "its edit label", response = Response.class)
+	@ApiOperation(value = "its api for edit label", response = Response.class)
 	@PutMapping("/label/update")
 	public ResponseEntity<Response> updateLabel(@RequestBody LabelUpdate label,@RequestHeader ("token") String token){
 		service.updateLabel(label,token);
@@ -61,12 +66,20 @@ public class LabelController {
 	
 	
 	/*api for delete the label*/
+	@ApiOperation(value = "its api for delete label", response = Response.class)
 	@DeleteMapping("/label/delete")
 	public ResponseEntity<Response> deleteLabel(@RequestBody LabelUpdate label,@RequestHeader("token") String token){
 		service.deleteLabel(label,token);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("label is deleted", 200,label));
 	}
 	
+	
+	/*api for get label notes*/
+	@GetMapping("/label/getLabel")
+	public ResponseEntity<Response> getLabel(@RequestHeader ("token") String token){
+		List<LabelInformation> label=service.getLabel(token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("The result is ", 200, label));
+	}
 	
 	
 	

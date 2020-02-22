@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.implimentation;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -116,6 +118,18 @@ public class LabelImplimentation implements LabelService {
 				throw new UserException("Note does not exit");
 			}
 		}
+	}
+	@Transactional
+	@Override
+	public List<LabelInformation> getLabel(String token) {
+		Long id=null;
+		try {
+			id=tokenGenrator.parseJwt(token);
+		} catch (Exception e) {
+			throw new UserException("user doesn't exit");
+		}
+		List<LabelInformation> labels=labelRepository.getAllLabels(id);
+		return labels;
 	}
 
 	
