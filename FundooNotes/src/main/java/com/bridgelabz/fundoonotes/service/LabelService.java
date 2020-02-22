@@ -21,4 +21,6 @@ public interface LabelService {
 
 	List<LabelInformation> getLabel(String token);
 
+	List<NoteInformation> getAllNote(String token, Long labelId);
+
 }

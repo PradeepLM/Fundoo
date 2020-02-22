@@ -74,11 +74,20 @@ public class LabelController {
 	}
 	
 	
-	/*api for get label notes*/
+	/*api for get all label */
+	@ApiOperation(value = "its api for get all label", response = Response.class)
 	@GetMapping("/label/getLabel")
 	public ResponseEntity<Response> getLabel(@RequestHeader ("token") String token){
 		List<LabelInformation> label=service.getLabel(token);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("The result is ", 200, label));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("The all label is ", 200, label));
+	}
+	
+	/*api for get all labelNotes*/
+	@GetMapping("/label/getlabelNotes")
+	public ResponseEntity<Response> getLabelNote(@RequestHeader("token") String token,@RequestParam("labelId") Long labelId){
+		List<NoteInformation> list=service.getAllNote(token,labelId);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("all label note is", 200, list));
+		
 	}
 	
 	

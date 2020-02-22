@@ -131,6 +131,14 @@ public class LabelImplimentation implements LabelService {
 		List<LabelInformation> labels=labelRepository.getAllLabels(id);
 		return labels;
 	}
+	
+	@Transactional
+	@Override
+	public List<NoteInformation> getAllNote(String token, Long labelId) {
+		LabelInformation label=labelRepository.getLabelNotes(labelId);
+		List<NoteInformation> list=label.getList();
+		return list;
+	}
 
 	
 	

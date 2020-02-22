@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.fundoonotes.entity.LabelInformation;
+import com.bridgelabz.fundoonotes.entity.NoteInformation;
 @Repository
 public class LabelRepositoryImplimentation implements LabelRepository{
 	@PersistenceContext
@@ -54,6 +55,12 @@ public class LabelRepositoryImplimentation implements LabelRepository{
 		//Query qry=session.createQuery("FROM LabelInformation where UserId=:id");
 		//qry.setParameter("id", id); 
 		return session.createQuery("FROM LabelInformation where UserId='"+id+"'").getResultList();
+	}
+
+	@Override
+	public LabelInformation getLabelNotes(Long id) {
+		Session session=entityManager.unwrap(Session.class);
+		return (LabelInformation) session.createQuery("FROM LabelInformation where LabelId='"+id+"'").uniqueResult();
 	}
 
 }
