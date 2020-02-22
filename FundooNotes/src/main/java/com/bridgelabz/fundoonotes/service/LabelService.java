@@ -23,4 +23,6 @@ public interface LabelService {
 
 	List<NoteInformation> getAllNote(String token, Long labelId);
 
+	void createLabelMap(LabelDto label, String token, Long noteId);
+
 }

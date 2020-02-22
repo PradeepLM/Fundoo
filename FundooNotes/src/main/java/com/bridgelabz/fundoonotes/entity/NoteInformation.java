@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -38,4 +39,5 @@ public class NoteInformation {
 	private String colour;
 
 	private LocalDateTime reminder;
+	private List<LabelInformation> list;
 }

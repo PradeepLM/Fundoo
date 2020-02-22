@@ -10,7 +10,6 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.fundoonotes.entity.LabelInformation;
-import com.bridgelabz.fundoonotes.entity.NoteInformation;
 @Repository
 public class LabelRepositoryImplimentation implements LabelRepository{
 	@PersistenceContext

@@ -23,6 +23,8 @@ import com.bridgelabz.fundoonotes.response.UserDetail;
 import com.bridgelabz.fundoonotes.service.Services;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 
+import io.swagger.annotations.ApiOperation;
+
 //It is a specialization of @Component is auto detected through class path scanning.
 @RestController
 public class UserController {
@@ -35,6 +37,7 @@ public class UserController {
 	/* api for registration */
 	// annotated methods handle the HTTP POST requests matched with given URI
 	// expression
+	@ApiOperation(value = "its api for registration", response = Response.class)
 	@PostMapping("/user/register")
 	// ResponseEntity represents the whole HTTP response: status code, headers, and
 	// body.
@@ -44,11 +47,12 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(new Response("registration sucessfully", 200, information));
 		}
-		return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(new Response("user alerday", 400, information));
+		return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(new Response("user alerday exit", 400, information));
 
 	}
 
 	/* api for login */
+	@ApiOperation(value = "its api for login", response = Response.class)
 	@PostMapping("/user/login")
 	public ResponseEntity<UserDetail> login(@RequestBody LoginInformation information) {
 		UserInformation userInformation = service.login(information);
@@ -60,23 +64,25 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserDetail("login failed", 400, information));
 
 	}
-
+	
+	/*api for login verfication*/
+	@ApiOperation(value = "its api for user verfication", response = Response.class)
 	@GetMapping("/verify/{token}")
 	public ResponseEntity<Response> userVerification(@PathVariable("token") String token) throws Exception {
 
 		boolean update = service.verify(token);
-		System.out.println("UPDATE :" + update);
 		if (update) {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified", 200, token));
 		}
 
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("not verified", 400));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("not verified", 400));
 
 	}
-
+	
+	/*api for forgot password*/
+	@ApiOperation(value = "its api for forgot password", response = Response.class)
 	@PutMapping("user/forgotpassword")
 	public ResponseEntity<Response> forgotPassword(@RequestParam("email") String email) {
-		System.out.println(email);
 		boolean result = service.isUserExist(email);
 		if (result) {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified", 200, email));
@@ -87,6 +93,7 @@ public class UserController {
 	}
 
 	/* API for for updating password with token */
+	@ApiOperation(value = "its api for update", response = Response.class)
 	@PutMapping("user/update/{token}")
 	public ResponseEntity<Response> update(@PathVariable("token") String token, @RequestBody PasswordUpdate update) {
 		boolean result = service.update(update, token);
@@ -98,6 +105,7 @@ public class UserController {
 	}
 
 	/* api getting all user details */
+	@ApiOperation(value = "its api for  take all users", response = Response.class)
 	@GetMapping("user/getusers")
 	public ResponseEntity<Response> getUsers() {
 		List<UserInformation> users = service.getUsers();
@@ -106,6 +114,7 @@ public class UserController {
 	}
 
 	/* api getting all user details */
+	@ApiOperation(value = "its api for  take one users", response = Response.class)
 	@GetMapping("user/getuser")
 	public ResponseEntity<Response> getoneUser(@RequestHeader("token") String token) {
 		return service.getsingleUser(token);

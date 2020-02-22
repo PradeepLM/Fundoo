@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -138,6 +139,31 @@ public class LabelImplimentation implements LabelService {
 		LabelInformation label=labelRepository.getLabelNotes(labelId);
 		List<NoteInformation> list=label.getList();
 		return list;
+	}
+	
+	@Transactional
+	@Override
+	public void createLabelMap(LabelDto label, String token, Long noteId) {
+		Long id=null;
+		try {
+			id=tokenGenrator.parseJwt(token);
+		} catch (Exception e) {
+			throw new UserException("user dosnot exit");
+		}
+		UserInformation user=userRepository.getUserById(id);
+		if(user!=null) {
+			LabelInformation labelinfo=labelRepository.fetchLabel(user.getUserId(), user.getName());
+			if(labelinfo==null) {
+				BeanUtils.copyProperties(label, LabelInformation.class);
+				labelInformation.setUserId(user.getUserId());
+				labelRepository.save(labelInformation);
+				NoteInformation note=noterepository.findById(noteId);
+				note.getList().add( element););
+			}
+			
+			
+			
+		}
 	}
 
 	

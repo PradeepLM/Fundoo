@@ -83,6 +83,7 @@ public class LabelController {
 	}
 	
 	/*api for get all labelNotes*/
+	@ApiOperation(value = "its api for get all label with notes", response = Response.class)
 	@GetMapping("/label/getlabelNotes")
 	public ResponseEntity<Response> getLabelNote(@RequestHeader("token") String token,@RequestParam("labelId") Long labelId){
 		List<NoteInformation> list=service.getAllNote(token,labelId);
@@ -90,7 +91,12 @@ public class LabelController {
 		
 	}
 	
-	
+	@PostMapping("/label/createLabelMap")
+	public ResponseEntity<Response> createLabelMap(@RequestBody LabelDto label,@RequestHeader("token") String token,@RequestParam Long noteId){
+		service.createLabelMap(label,token,noteId);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("created label", 200, label));
+		
+	}
 	
 	
 	

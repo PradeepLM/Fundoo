@@ -22,12 +22,15 @@ import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.service.NoteService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 public class NoteController {
 	@Autowired
 	private NoteService service;
 
 	/* API for creating a Note */
+	@ApiOperation(value = "its api for  create note", response = Response.class)
 	@PostMapping("/note/create")
 	public ResponseEntity<Response> create(@RequestBody NoteDto information, @RequestHeader("token") String token) {
 		service.createNote(information, token);
@@ -35,6 +38,7 @@ public class NoteController {
 	}
 
 	/* api for updating a note */
+	@ApiOperation(value = "its api for  create note update", response = Response.class)
 	@PutMapping("/note/update")
 	public ResponseEntity<Response> update(@RequestBody NoteUpdate note, @RequestHeader("token") String token) {
 		service.updateNote(note, token);
@@ -43,6 +47,7 @@ public class NoteController {
 	}
 
 	/* api for archieve a note */
+	@ApiOperation(value = "its api for  archieve note", response = Response.class)
 	@PostMapping("/note/archieve/{id}")
 	public ResponseEntity<Response> archieve(@PathVariable Long id, @RequestHeader("token") String token) {
 		service.archievNote(id, token);
@@ -50,6 +55,7 @@ public class NoteController {
 	}
 
 	/* api for pin a note */
+	@ApiOperation(value = "its api for  pin note", response = Response.class)
 	@PostMapping("/note/pin/{id}")
 	public ResponseEntity<Response> pin(@PathVariable Long id, @RequestHeader("token") String token) {
 		service.pin(id, token);
@@ -57,6 +63,7 @@ public class NoteController {
 	}
 
 	/* api for delete a note */
+	@ApiOperation(value = "its api for  delete note", response = Response.class)
 	@DeleteMapping("/note/delete/{id}")
 	public ResponseEntity<Response> delete(@PathVariable Long id, @RequestHeader("token") String token) {
 		service.deleteNote(id, token);
@@ -65,6 +72,7 @@ public class NoteController {
 	}
 
 	/* api for delete a note permently */
+	@ApiOperation(value = "its api for  delete perment note", response = Response.class)
 	@DeleteMapping("/note/deletePermently/{id}")
 	public ResponseEntity<Response> deletePerment(@PathVariable Long id, @RequestHeader("token") String token) {
 		service.deletePermently(id, token);
@@ -72,6 +80,7 @@ public class NoteController {
 	}
 
 	/* api for updating color to note */
+	@ApiOperation(value = "its api for  add color note", response = Response.class)
 	@PostMapping("/note/addcolor")
 	public ResponseEntity<Response> addColor(@RequestParam("noteId") Long noteId, @RequestParam("color") String color,
 			@RequestHeader("token") String token) {
@@ -81,6 +90,7 @@ public class NoteController {
 	}
 
 	/* api for getting all archieve all notes */
+	@ApiOperation(value = "its api for  get archieve note", response = Response.class)
 	@GetMapping("/note/getArchieve/{id}")
 	public ResponseEntity<Response> getArchieve(@RequestHeader("token") String token) {
 		List<NoteInformation> list = service.getArchieved(token);
@@ -89,6 +99,7 @@ public class NoteController {
 	}
 
 	/* api for getting all trashes notes */
+	@ApiOperation(value = "its api for get trashed note", response = Response.class)
 	@GetMapping("/note/getTrashed/{id}")
 	public ResponseEntity<Response> getTrashed(@RequestHeader("token") String token) {
 		List<NoteInformation> list = service.getTrashed(token);
@@ -97,6 +108,7 @@ public class NoteController {
 	}
 
 	/* api for getting all notes */
+	@ApiOperation(value = "its api for  get all note", response = Response.class)
 	@GetMapping("/note/getAllNotes/{id}")
 	public ResponseEntity<Response> getAllNotes(@RequestHeader("token") String token) {
 		List<NoteInformation> list = service.getAllNotes(token);
@@ -104,6 +116,7 @@ public class NoteController {
 	}
 	
 	/*api for adding reminder to notes*/
+	@ApiOperation(value = "its api for  add reminder note", response = Response.class)
 	@PutMapping("/note/addReminder/{id}")
 	public ResponseEntity<Response> addReminder(@RequestHeader("token") String token,@RequestParam("noteId") Long noteId,@RequestBody RemainderDto remainder){
 		service.addReminder(noteId, token, remainder);
@@ -112,6 +125,7 @@ public class NoteController {
 	}
 	
 	/*api for removing reminder to notes*/
+	@ApiOperation(value = "its api for  remove remainder note", response = Response.class)
 	@PutMapping("/note/removeReminder/{id}")
 	public ResponseEntity<Response> removeRemainder(@RequestHeader("token") String token,@RequestParam ("noteId") Long noteId,@RequestBody RemainderDto remainder){
 		service.removeReminder(noteId, token, remainder);
