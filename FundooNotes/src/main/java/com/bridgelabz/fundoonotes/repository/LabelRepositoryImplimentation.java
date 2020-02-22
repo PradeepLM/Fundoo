@@ -36,4 +36,14 @@ public class LabelRepositoryImplimentation implements LabelRepository{
 		return (LabelInformation) qry.uniqueResult();
 	}
 
+	@Override
+	public int deleteLabel(Long labelId) {
+		Session session=entityManager.unwrap(Session.class);
+		Query qry=session.createQuery("DELETE FROM LabelInformation where LabelId=:id");
+		qry.setParameter("id", labelId);
+		int result=qry.executeUpdate();
+		return result;
+		
+	}
+
 }

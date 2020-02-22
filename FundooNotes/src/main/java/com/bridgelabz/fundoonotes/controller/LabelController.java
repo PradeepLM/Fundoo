@@ -3,6 +3,7 @@ package com.bridgelabz.fundoonotes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,10 +52,19 @@ public class LabelController {
 	
 	
 	/* api for update the label*/
+	@ApiOperation(value = "its edit label", response = Response.class)
 	@PutMapping("/label/update")
 	public ResponseEntity<Response> updateLabel(@RequestBody LabelUpdate label,@RequestHeader ("token") String token){
 		service.updateLabel(label,token);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("label is updated", 200,label));
+	}
+	
+	
+	/*api for delete the label*/
+	@DeleteMapping("/label/delete")
+	public ResponseEntity<Response> deleteLabel(@RequestBody LabelUpdate label,@RequestHeader("token") String token){
+		service.deleteLabel(label,token);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("label is deleted", 200,label));
 	}
 	
 	

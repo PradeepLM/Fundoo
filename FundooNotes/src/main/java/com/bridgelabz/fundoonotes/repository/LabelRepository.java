@@ -9,4 +9,6 @@ public interface LabelRepository {
 
 	LabelInformation fetchLabelById(Long labeId);
 
+	int deleteLabel(Long labelId);
+
 }

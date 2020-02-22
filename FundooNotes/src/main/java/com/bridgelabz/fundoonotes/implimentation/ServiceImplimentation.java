@@ -26,11 +26,7 @@ import com.bridgelabz.fundoonotes.service.Services;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 import com.bridgelabz.fundoonotes.utility.MailServiceProvider;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import io.swagger.models.RefResponse;
-import net.bytebuddy.asm.Advice.Return;
-
-@Service // used to write business logic in a different layerS
+@Service // used to write business logic in a different layers
 public class ServiceImplimentation implements Services {
 	UserInformation userInformation = new UserInformation();
 	@Autowired // is used for automatic dependency injection.

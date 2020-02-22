@@ -98,5 +98,26 @@ public class LabelImplimentation implements LabelService {
 			throw new UserException("user dosn't exit");
 		}
 	}
+	@Transactional
+	@Override
+	public void deleteLabel(LabelUpdate label, String token) {
+		Long id=null;
+		try {
+			id=tokenGenrator.parseJwt(token);
+		} catch (Exception e) {
+			throw new UserException("user doesn't exit");
+		}
+		UserInformation user=userRepository.getUserById(id);
+		if(user!=null) {
+			LabelInformation labelinfo=labelRepository.fetchLabelById(label.getLabelId());
+			if(labelinfo!=null) {
+				labelRepository.deleteLabel(label.getLabelId());
+			}else {
+				throw new UserException("Note does not exit");
+			}
+		}
+	}
 
+	
+	
 }
