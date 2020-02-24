@@ -18,4 +18,6 @@ public interface LabelRepository {
 
 	LabelInformation getLabelNotes(Long id);
 
+	List<LabelInformation> fetchLabelId(Long id);
+
 }

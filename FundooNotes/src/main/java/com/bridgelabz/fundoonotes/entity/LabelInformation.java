@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -23,9 +25,11 @@ public class LabelInformation {
 	private Long LabelId;
 	private String name;
 	private Long UserId;
+	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "labelNote", joinColumns = { @JoinColumn(name = "labelId") }, inverseJoinColumns = {
-			@JoinColumn(name = "id") })
+			@JoinColumn(name = "noteId") })
 
 	private List<NoteInformation> list;
 }

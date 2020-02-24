@@ -3,8 +3,8 @@ package com.bridgelabz.fundoonotes.implimentation;
 import java.util.List;
 
 import javax.transaction.Transactional;
-
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,10 @@ import com.bridgelabz.fundoonotes.repository.UserRepository;
 import com.bridgelabz.fundoonotes.service.LabelService;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class LabelImplimentation implements LabelService {
 
 	private UserInformation user = new UserInformation();
@@ -101,71 +104,72 @@ public class LabelImplimentation implements LabelService {
 			throw new UserException("user dosn't exit");
 		}
 	}
+
 	@Transactional
 	@Override
 	public void deleteLabel(LabelUpdate label, String token) {
-		Long id=null;
+		Long id = null;
 		try {
-			id=tokenGenrator.parseJwt(token);
+			id = tokenGenrator.parseJwt(token);
 		} catch (Exception e) {
 			throw new UserException("user doesn't exit");
 		}
-		UserInformation user=userRepository.getUserById(id);
-		if(user!=null) {
-			LabelInformation labelinfo=labelRepository.fetchLabelById(label.getLabelId());
-			if(labelinfo!=null) {
+		UserInformation user = userRepository.getUserById(id);
+		if (user != null) {
+			LabelInformation labelinfo = labelRepository.fetchLabelById(label.getLabelId());
+			if (labelinfo != null) {
 				labelRepository.deleteLabel(label.getLabelId());
-			}else {
+			} else {
 				throw new UserException("Note does not exit");
 			}
 		}
 	}
+
 	@Transactional
 	@Override
 	public List<LabelInformation> getLabel(String token) {
-		Long id=null;
+		Long id = null;
 		try {
-			id=tokenGenrator.parseJwt(token);
+			id = tokenGenrator.parseJwt(token);
 		} catch (Exception e) {
 			throw new UserException("user doesn't exit");
 		}
-		List<LabelInformation> labels=labelRepository.getAllLabels(id);
+		List<LabelInformation> labels = labelRepository.fetchLabelId(id);
 		return labels;
 	}
-	
+
 	@Transactional
 	@Override
 	public List<NoteInformation> getAllNote(String token, Long labelId) {
-		LabelInformation label=labelRepository.getLabelNotes(labelId);
-		List<NoteInformation> list=label.getList();
+		LabelInformation label = labelRepository.getLabelNotes(labelId);
+		List<NoteInformation> list = label.getList();
 		return list;
 	}
-	
+
 	@Transactional
 	@Override
 	public void createLabelMap(LabelDto label, String token, Long noteId) {
-		Long id=null;
+		Long id = null;
 		try {
-			id=tokenGenrator.parseJwt(token);
+			id = tokenGenrator.parseJwt(token);
+			UserInformation user = userRepository.getUserById(id);
+			if (user != null) {
+				LabelInformation labelinfo = labelRepository.fetchLabel(user.getUserId(), label.getName());
+				if(labelinfo!=null) {
+					labelInformation=modelMapper.map(label, LabelInformation.class);
+					labelInformation.getLabelId();
+					labelInformation.getName();
+					labelInformation.setUserId(user.getUserId());
+					labelRepository.save(labelInformation);
+					NoteInformation note=noterepository.findById(noteId);
+					note.getList().add(labelInformation);
+					noterepository.save(note);
+				}
+				
+			}
 		} catch (Exception e) {
 			throw new UserException("user dosnot exit");
 		}
-		UserInformation user=userRepository.getUserById(id);
-		if(user!=null) {
-			LabelInformation labelinfo=labelRepository.fetchLabel(user.getUserId(), user.getName());
-			if(labelinfo==null) {
-				BeanUtils.copyProperties(label, LabelInformation.class);
-				labelInformation.setUserId(user.getUserId());
-				labelRepository.save(labelInformation);
-				NoteInformation note=noterepository.findById(noteId);
-				note.getList().add( element););
-			}
-			
-			
-			
-		}
 	}
 
-	
-	
 }

@@ -51,8 +51,8 @@ public class LabelRepositoryImplimentation implements LabelRepository{
 	@Override
 	public List<LabelInformation> getAllLabels(Long id) {
 		Session session=entityManager.unwrap(Session.class);
-		//Query qry=session.createQuery("FROM LabelInformation where UserId=:id");
-		//qry.setParameter("id", id); 
+//		Query qry=session.createQuery("FROM LabelInformation where UserId=:id");
+//		qry.setParameter("id", id); 
 		return session.createQuery("FROM LabelInformation where UserId='"+id+"'").getResultList();
 	}
 
@@ -60,6 +60,13 @@ public class LabelRepositoryImplimentation implements LabelRepository{
 	public LabelInformation getLabelNotes(Long id) {
 		Session session=entityManager.unwrap(Session.class);
 		return (LabelInformation) session.createQuery("FROM LabelInformation where LabelId='"+id+"'").uniqueResult();
+	}
+
+	@Override
+	public List<LabelInformation> fetchLabelId(Long id) {
+		Session session=entityManager.unwrap(Session.class);
+		List list=session.createQuery("FROM NoteInformation where id='"+id+"'").getResultList();
+		return list;
 	}
 
 }

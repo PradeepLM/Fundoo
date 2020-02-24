@@ -90,7 +90,8 @@ public class LabelController {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("all label note is", 200, list));
 		
 	}
-	
+	/*api for create label note map*/
+	@ApiOperation(value = "its api for create label map", response = Response.class)
 	@PostMapping("/label/createLabelMap")
 	public ResponseEntity<Response> createLabelMap(@RequestBody LabelDto label,@RequestHeader("token") String token,@RequestParam Long noteId){
 		service.createLabelMap(label,token,noteId);

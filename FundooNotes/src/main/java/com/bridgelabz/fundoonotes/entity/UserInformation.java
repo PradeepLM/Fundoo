@@ -38,8 +38,8 @@ public class UserInformation {
 	@JoinColumn(name = "userId")
 	private List<NoteInformation> note;
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "collaborator_note", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "note_id") })
+	@JoinTable(name = "collaborator_note", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
+			@JoinColumn(name = "noteId") })
 	@JsonIgnore
 	private List<NoteInformation> colbrateNote;
 }
