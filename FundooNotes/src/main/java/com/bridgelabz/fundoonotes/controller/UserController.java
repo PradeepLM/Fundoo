@@ -21,7 +21,6 @@ import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.response.UserDetail;
-import com.bridgelabz.fundoonotes.service.CollaboratorService;
 import com.bridgelabz.fundoonotes.service.Services;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 
@@ -127,6 +126,12 @@ public class UserController {
 		NoteInformation note=service.addCollabrator(noteId,email,token);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("added collabrator", 200,note));
 		
+	}
+	
+	@GetMapping("/getCollabrate")
+	public ResponseEntity<Response> getCollabrator(@RequestParam("noteId") Long noteId,@RequestParam("email") String email,@RequestHeader("token") String token){
+		List<NoteInformation> note=service.getCollabNote(noteId,email,token);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("The notes are", 200, note));
 	}
 	
 

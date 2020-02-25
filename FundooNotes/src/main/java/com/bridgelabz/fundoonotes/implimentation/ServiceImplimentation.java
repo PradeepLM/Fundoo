@@ -179,10 +179,18 @@ public class ServiceImplimentation implements Services {
 				collabrator.getColbrateNote().add(note);
 				return note;
 			}else {
-				throw new UserException("Given Email is present");
+				throw new UserException("Given Email is not present");
 			}
 		}else {
-			throw new UserException("user is not present");
+			throw new UserException("collabrator is not present");
 		}
+	}
+	@Transactional
+	@Override
+	public List<NoteInformation> getCollabNote(Long noteId, String email, String token) {
+		Long userId=generate.parseJwt(token);
+		UserInformation user=repository.getUserById(userId);
+		List<NoteInformation> notes=user.getColbrateNote();
+		return notes;
 	}
 }

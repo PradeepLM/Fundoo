@@ -28,4 +28,6 @@ public interface Services {
 
 	NoteInformation addCollabrator(Long noteId, String email, String token);
 
+	List<NoteInformation> getCollabNote(Long noteId, String email, String token);
+
 }
