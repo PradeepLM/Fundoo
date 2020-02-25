@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import com.bridgelabz.fundoonotes.dto.LoginInformation;
 import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.dto.UserDto;
+import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.response.Response;
 
@@ -24,5 +25,7 @@ public interface Services {
 	List<UserInformation> getUsers();
 
 	ResponseEntity<Response> getsingleUser(String token);
+
+	NoteInformation addCollabrator(Long noteId, String email, String token);
 
 }

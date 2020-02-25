@@ -47,6 +47,7 @@ public class NoteImplimentation implements NoteService {
 				noteInformation.setTrashed(false);
 				noteInformation.setColour("yellow");
 				noteInformation.setUpDateAndTime(LocalDateTime.now());
+				user.getNote().add(noteInformation);
 				NoteInformation note = noteRepository.save(noteInformation);
 
 			}

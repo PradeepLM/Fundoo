@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.fundoonotes.dto.LoginInformation;
 import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.dto.UserDto;
+import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.exception.UserException;
+import com.bridgelabz.fundoonotes.repository.NoteRepository;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
 import com.bridgelabz.fundoonotes.response.MailObject;
 import com.bridgelabz.fundoonotes.response.MailResponse;
@@ -41,6 +43,8 @@ public class ServiceImplimentation implements Services {
 	private MailResponse response;
 	@Autowired
 	private MailObject mailObject;
+	@Autowired
+	private NoteRepository noteRepository;
 
 	@Override
 	public boolean register(UserDto information) {
@@ -137,7 +141,7 @@ public class ServiceImplimentation implements Services {
 		UserInformation user = users.get(0);
 		return users;
 	}
-
+	@Transactional
 	@Override
 	public ResponseEntity<Response> getsingleUser(String token) {
 		Long id;
@@ -147,7 +151,6 @@ public class ServiceImplimentation implements Services {
 			System.out.println(id);
 			
 			Optional<UserInformation> user2 =Optional.ofNullable(repository.getUserById(id)); 
-//			System.out.println(user);
 			if(user2.isPresent()) {
 				System.out.println("single user"+user2.get().getEmail());
 			
@@ -158,5 +161,28 @@ public class ServiceImplimentation implements Services {
 		
 		
 		return null;
+	}
+	@Transactional
+	@Override
+	public NoteInformation addCollabrator(Long noteId, String email, String token) {
+		UserInformation user;
+		UserInformation collabrator=repository.getUser(email);
+		try {
+			Long userId=generate.parseJwt(token);
+			user=repository.getUserById(userId);
+		} catch (Exception e) {
+			throw new UserException("user is not present given your email id");
+		}
+		if(user!=null) {
+			if(collabrator!=null) {
+				NoteInformation note=noteRepository.findById(noteId);
+				collabrator.getColbrateNote().add(note);
+				return note;
+			}else {
+				throw new UserException("Given Email is present");
+			}
+		}else {
+			throw new UserException("user is not present");
+		}
 	}
 }

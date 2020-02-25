@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.fundoonotes.dto.LoginInformation;
 import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.dto.UserDto;
+import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.response.UserDetail;
+import com.bridgelabz.fundoonotes.service.CollaboratorService;
 import com.bridgelabz.fundoonotes.service.Services;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 
@@ -119,5 +121,13 @@ public class UserController {
 	public ResponseEntity<Response> getoneUser(@RequestHeader("token") String token) {
 		return service.getsingleUser(token);
 	}
+	
+	@PostMapping("/addCollabrator")
+	public ResponseEntity<Response> addCollabrator(@RequestParam ("noteId") Long noteId,@RequestParam("email") String email,@RequestHeader ("token") String token){
+		NoteInformation note=service.addCollabrator(noteId,email,token);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("added collabrator", 200,note));
+		
+	}
+	
 
 }
