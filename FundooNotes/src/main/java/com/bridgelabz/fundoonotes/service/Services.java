@@ -30,4 +30,6 @@ public interface Services {
 
 	List<NoteInformation> getCollabNote(Long noteId, String email, String token);
 
+	NoteInformation removeCollabrator(Long noteId, String email, String token);
+
 }

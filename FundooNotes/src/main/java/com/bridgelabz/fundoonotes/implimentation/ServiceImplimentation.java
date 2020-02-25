@@ -193,4 +193,21 @@ public class ServiceImplimentation implements Services {
 		List<NoteInformation> notes=user.getColbrateNote();
 		return notes;
 	}
+	
+	@Transactional
+	@Override
+	public NoteInformation removeCollabrator(Long noteId, String email, String token) {
+		UserInformation user;
+		UserInformation collabrator=repository.getUser(email);
+		try {
+			Long userId=generate.parseJwt(token);
+			user=repository.getUserById(userId);
+		} catch (Exception e) {
+			throw new UserException("user is not present given your email id");
+		}
+		NoteInformation note=noteRepository.findById(noteId);
+		note.getColabratorUser().remove(collabrator);
+		return null;
+		
+	}
 }

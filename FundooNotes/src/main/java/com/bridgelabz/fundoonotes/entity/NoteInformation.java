@@ -49,4 +49,10 @@ public class NoteInformation {
 	 @JsonBackReference
 	 @JsonIgnore
 	private List<LabelInformation> list;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "collaborator_note", joinColumns = { @JoinColumn(name = "noteId") }, inverseJoinColumns = {
+			@JoinColumn(name = "userId") })
+	@JsonBackReference
+     private List<UserInformation> colabratorUser;
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -128,10 +129,16 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/getCollabrate")
+	@GetMapping("/getCollabrator")
 	public ResponseEntity<Response> getCollabrator(@RequestParam("noteId") Long noteId,@RequestParam("email") String email,@RequestHeader("token") String token){
 		List<NoteInformation> note=service.getCollabNote(noteId,email,token);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("The notes are", 200, note));
+	}
+	@DeleteMapping("/remove collabrator")
+	public ResponseEntity<Response> removeCollabrator(@RequestParam("noteId") Long noteId,@RequestParam("email") String email,@RequestHeader("token") String token){
+		NoteInformation note=service.removeCollabrator(noteId,email,token);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("collbrate note is removed", 200,note));
+		
 	}
 	
 
