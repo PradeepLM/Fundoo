@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.bridgelabz.fundoonotes.dto.NoteDto;
@@ -31,5 +32,9 @@ public interface NoteService {
 	void addReminder(Long noteId, String token, RemainderDto remainder);
 
 	void removeReminder(Long noteId, String token, RemainderDto remainder);
+
+	NoteInformation searchByid(Long title) throws IOException;
+
+	List<NoteInformation> searchByTitle(String title) throws IOException;
 
 }

@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +133,19 @@ public class NoteController {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Reminder Notes", 200,remainder));
 		
 	}
+	/*api for searching id using elastic search*/
+	@GetMapping("/note/searchById")
+	public ResponseEntity<Response> search(@RequestParam ("noteId") Long noteId,@RequestHeader("token") String token) throws IOException{
+		NoteInformation notes=service.searchByid(noteId);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("the notes are", 200, notes));
+	}
 	
+	/*api for searching id using elastic search*/
+	@GetMapping("/note/searchByTitle")
+	public ResponseEntity<Response> search(@RequestParam ("title") String title,@RequestHeader("token") String token) throws IOException{
+		List<NoteInformation> notes=service.searchByTitle(title);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("the notes are", 200, notes));
+	}
 	
 	
 	

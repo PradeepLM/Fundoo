@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.implimentation;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.fundoonotes.dto.NoteDto;
 import com.bridgelabz.fundoonotes.dto.NoteUpdate;
 import com.bridgelabz.fundoonotes.dto.RemainderDto;
+import com.bridgelabz.fundoonotes.entity.LabelInformation;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.exception.UserException;
@@ -34,7 +36,7 @@ public class NoteImplimentation implements NoteService {
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-	private ElasticSearchService elasticSeviceImpl;
+	private ElasticSearchService elasticSevice;
 
 	@Transactional
 	@Override
@@ -54,7 +56,7 @@ public class NoteImplimentation implements NoteService {
 				NoteInformation note = noteRepository.save(noteInformation);
 				if(note!=null) {
 					try {
-						String elastCheck=elasticSeviceImpl.CreateNote(noteInformation);
+						elasticSevice.CreateNote(noteInformation);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -148,8 +150,15 @@ public class NoteImplimentation implements NoteService {
 			Long userId = (long) tokenGenerator.parseJwt(token);
 			user = repository.getUserById(userId);
 			NoteInformation noteinf = noteRepository.findById(id);
-			if (noteinf != null) {
+			if (noteinf != null) {	
+				List<LabelInformation> labels=noteinf.getList();
+				if(labels!=null) {
+					labels.clear();
+				}
 				noteRepository.deleteNote(id, userId);
+				elasticSevice.deleteNote(noteinf);
+			}else {
+				throw new UserException("Given not is not present");
 			}
 
 		} catch (Exception e) {
@@ -265,5 +274,28 @@ public class NoteImplimentation implements NoteService {
 			throw new UserException("error occured");
 		}
 	}
-
+	
+	@Transactional
+	@Override
+	public NoteInformation searchByid(Long noteId) throws IOException {
+		NoteInformation notes=elasticSevice.searchByNoteId(noteId);
+		if(notes!=null) {
+			System.out.println("Note :"+notes.getTitle());
+			return notes;
+		}else {
+			return null;
+		}
+		
+	}
+	
+	@Transactional
+	@Override
+	public List<NoteInformation> searchByTitle(String title) throws IOException {
+		List<NoteInformation> notes=elasticSevice.searchByTitle(title);
+		if(notes!=null) {
+			return notes;
+		}else {
+			return null;
+		}
+	}
 }
