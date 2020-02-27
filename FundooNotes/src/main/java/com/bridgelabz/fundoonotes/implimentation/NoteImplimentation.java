@@ -17,6 +17,7 @@ import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.repository.NoteRepository;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
+import com.bridgelabz.fundoonotes.service.ElasticSearchService;
 import com.bridgelabz.fundoonotes.service.NoteService;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 
@@ -32,6 +33,8 @@ public class NoteImplimentation implements NoteService {
 	private NoteInformation noteInformation = new NoteInformation();
 	@Autowired
 	private ModelMapper modelMapper;
+	@Autowired
+	private ElasticSearchService elasticSeviceImpl;
 
 	@Transactional
 	@Override
@@ -49,6 +52,13 @@ public class NoteImplimentation implements NoteService {
 				noteInformation.setUpDateAndTime(LocalDateTime.now());
 				user.getNote().add(noteInformation);
 				NoteInformation note = noteRepository.save(noteInformation);
+				if(note!=null) {
+					try {
+						String elastCheck=elasticSeviceImpl.CreateNote(noteInformation);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 
 			}
 		} catch (Exception e) {

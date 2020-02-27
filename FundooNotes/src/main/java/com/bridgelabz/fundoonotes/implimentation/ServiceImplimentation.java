@@ -207,7 +207,7 @@ public class ServiceImplimentation implements Services {
 		}
 		NoteInformation note=noteRepository.findById(noteId);
 		note.getColabratorUser().remove(collabrator);
-		return null;
+		return note;
 		
 	}
 }
