@@ -25,6 +25,11 @@ import com.bridgelabz.fundoonotes.configuration.ElasticSearchConfig;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.service.ElasticSearchService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+/**
+ * 
+ * @author pradeep
+ * @purpose: its used for create delete and search by title using elastic search
+ */
 @Service
 public class ElasticSearchImplimentation implements ElasticSearchService{
 	@Autowired
@@ -93,21 +98,6 @@ public class ElasticSearchImplimentation implements ElasticSearchService{
 		return notes;
 	}
 	
-	
-//	@Override
-//	//its for searching notes by title
-//	public NoteInformation searchByTitle(String title) {
-//		SearchRequest searchRequest=new SearchRequest("springboot");
-//		SearchSourceBuilder searchSourceBuilder=new SearchSourceBuilder();
-//		searchSourceBuilder.query(QueryBuilders.matchQuery("title", title));
-//		searchRequest.source(searchSourceBuilder);
-//		List<SearchResponse> searchResponse=null;
-//		try {
-//			return elasticSearchConfig.client().search(searchRequest, RequestOptions.DEFAULT);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
+
 
 }

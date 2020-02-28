@@ -46,7 +46,7 @@ public class ServiceImplimentation implements Services {
 	@Autowired
 	private NoteRepository noteRepository;
 
-	@Override
+	@Override//its used for registration by user
 	public boolean register(UserDto information) {
 		UserInformation user = repository.getUser(information.getEmail());
 		if (user == null) {
@@ -70,7 +70,7 @@ public class ServiceImplimentation implements Services {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for login 
 	public UserInformation login(LoginInformation information) {
 		UserInformation user = repository.getUser(information.getEmail());
 		if (user != null) {
@@ -92,7 +92,7 @@ public class ServiceImplimentation implements Services {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for verify the token
 	public boolean verify(String token) throws Exception {
 		System.out.println("id in verification" + (long) generate.parseJwt(token));
 		Long id = (long) generate.parseJwt(token);
@@ -101,7 +101,7 @@ public class ServiceImplimentation implements Services {
 		// return true;
 	}
 
-	@Override
+	@Override//its checks the user is exit or not
 	public boolean isUserExist(String email) {
 		try {
 			UserInformation user = repository.getUser(email);
@@ -120,7 +120,7 @@ public class ServiceImplimentation implements Services {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for update user information
 	public boolean update(PasswordUpdate information, String token) {
 		Long id = null;
 		try {
@@ -135,14 +135,14 @@ public class ServiceImplimentation implements Services {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for get all the user
 	public List<UserInformation> getUsers() {
 		List<UserInformation> users = repository.getUsers();
 		UserInformation user = users.get(0);
 		return users;
 	}
 	@Transactional
-	@Override
+	@Override//its used for get the user
 	public ResponseEntity<Response> getsingleUser(String token) {
 		Long id;
 		UserInformation user ;
@@ -163,7 +163,7 @@ public class ServiceImplimentation implements Services {
 		return null;
 	}
 	@Transactional
-	@Override
+	@Override//its used forcollbrate the note with user
 	public NoteInformation addCollabrator(Long noteId, String email, String token) {
 		UserInformation user;
 		UserInformation collabrator=repository.getUser(email);
@@ -186,7 +186,7 @@ public class ServiceImplimentation implements Services {
 		}
 	}
 	@Transactional
-	@Override
+	@Override//its used for who are all collabrate with note
 	public List<NoteInformation> getCollabNote(Long noteId, String email, String token) {
 		Long userId=generate.parseJwt(token);
 		UserInformation user=repository.getUserById(userId);
@@ -195,7 +195,7 @@ public class ServiceImplimentation implements Services {
 	}
 	
 	@Transactional
-	@Override
+	@Override//its used for remove collabrate with note
 	public NoteInformation removeCollabrator(Long noteId, String email, String token) {
 		UserInformation user;
 		UserInformation collabrator=repository.getUser(email);

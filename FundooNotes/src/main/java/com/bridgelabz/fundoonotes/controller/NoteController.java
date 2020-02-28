@@ -25,6 +25,10 @@ import com.bridgelabz.fundoonotes.service.NoteService;
 
 import io.swagger.annotations.ApiOperation;
 
+/*
+ * @author Pradeep
+ * @purpose: controller controls the data flow into model object and updates the view whenever data changes  
+ */
 @RestController
 public class NoteController {
 	@Autowired

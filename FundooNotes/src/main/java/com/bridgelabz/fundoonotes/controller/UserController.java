@@ -27,6 +27,11 @@ import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 
 import io.swagger.annotations.ApiOperation;
 
+/**
+ * 
+ * @author user
+ *
+ */
 //It is a specialization of @Component is auto detected through class path scanning.
 @RestController
 public class UserController {

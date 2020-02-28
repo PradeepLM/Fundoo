@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +18,12 @@ import com.bridgelabz.fundoonotes.repository.NoteRepository;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
 import com.bridgelabz.fundoonotes.service.LabelService;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
-
-import lombok.extern.slf4j.Slf4j;
-
+/**
+ * 
+ * @author pradeep
+ *
+ */
 @Service
-@Slf4j
 public class LabelImplimentation implements LabelService {
 
 	private UserInformation user = new UserInformation();
@@ -40,7 +40,7 @@ public class LabelImplimentation implements LabelService {
 	private LabelInformation labelInformation;
 
 	@Transactional
-	@Override
+	@Override//its used for create a label
 	public void createLabel(LabelDto label, String token) {
 		Long id = null;
 		try {
@@ -64,7 +64,7 @@ public class LabelImplimentation implements LabelService {
 	}
 
 	@Transactional
-	@Override
+	@Override////its used for add a label
 	public void addLabel(Long labelId, String token, Long noteId) {
 		NoteInformation note = noterepository.findById(noteId);
 		LabelInformation label = labelRepository.fetchLabelById(labelId);
@@ -73,7 +73,7 @@ public class LabelImplimentation implements LabelService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for remove a label
 	public void removeLabel(Long labelId, String token, Long noteId) {
 		NoteInformation note = noterepository.findById(noteId);
 		LabelInformation label = labelRepository.fetchLabelById(labelId);
@@ -82,7 +82,7 @@ public class LabelImplimentation implements LabelService {
 	}
 
 	@Transactional
-	@Override
+	@Override////its used for update a label
 	public void updateLabel(LabelUpdate label, String token) {
 		Long id = null;
 		try {
@@ -105,7 +105,7 @@ public class LabelImplimentation implements LabelService {
 	}
 
 	@Transactional
-	@Override
+	@Override////its used for delete  a label
 	public void deleteLabel(LabelUpdate label, String token) {
 		Long id = null;
 		try {
@@ -125,7 +125,7 @@ public class LabelImplimentation implements LabelService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for get a label
 	public List<LabelInformation> getLabel(String token) {
 		Long id = null;
 		try {
@@ -138,7 +138,7 @@ public class LabelImplimentation implements LabelService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for get all Label 
 	public List<NoteInformation> getAllNote(String token, Long labelId) {
 		LabelInformation label = labelRepository.getLabelNotes(labelId);
 		List<NoteInformation> list = label.getList();
@@ -146,7 +146,7 @@ public class LabelImplimentation implements LabelService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for createLabel and map
 	public void createLabelMap(LabelDto label, String token, Long noteId) {
 		Long id = null;
 		try {

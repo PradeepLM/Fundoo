@@ -6,8 +6,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
-
-@Data
+/**
+ * 
+ * @author pradeep
+ *
+ */
+@Data//its used for update note
 public class NoteUpdate {
 	@NotBlank
 	private Long id;

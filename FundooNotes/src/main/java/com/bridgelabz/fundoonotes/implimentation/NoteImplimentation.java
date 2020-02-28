@@ -22,7 +22,11 @@ import com.bridgelabz.fundoonotes.repository.UserRepository;
 import com.bridgelabz.fundoonotes.service.ElasticSearchService;
 import com.bridgelabz.fundoonotes.service.NoteService;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
-
+/**
+ * 
+ * @author pradeep
+ *
+ */
 @Service
 public class NoteImplimentation implements NoteService {
 	@Autowired
@@ -39,7 +43,7 @@ public class NoteImplimentation implements NoteService {
 	private ElasticSearchService elasticSevice;
 
 	@Transactional
-	@Override
+	@Override//its used for create a note
 	public void createNote(NoteDto information, String token) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -70,7 +74,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for update a note
 	public void updateNote(NoteUpdate information, String token) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -93,7 +97,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for archive a note
 	public void archievNote(Long id, String token) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -111,7 +115,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for pin a note
 	public void pin(Long id, String token) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -128,7 +132,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for delete a note
 	public void deleteNote(Long id, String token) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -144,7 +148,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for delete permenetly a note
 	public boolean deletePermently(Long id, String token) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -168,7 +172,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for add a color a note
 	public void addColor(Long id, String token, String color) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -190,7 +194,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for Get Archieved a note
 	public List<NoteInformation> getArchieved(String token) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -207,7 +211,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for Get Trashed a note
 	public List<NoteInformation> getTrashed(String token) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -224,7 +228,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for Get all notes a note
 	public List<NoteInformation> getAllNotes(String token) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -240,7 +244,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for add remainder a note
 	public void addReminder(Long noteId, String token, RemainderDto remainder) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -258,7 +262,7 @@ public class NoteImplimentation implements NoteService {
 	}
 
 	@Transactional
-	@Override
+	@Override//its used for remove remainder a note
 	public void removeReminder(Long noteId, String token, RemainderDto remainder) {
 		try {
 			Long userId = (long) tokenGenerator.parseJwt(token);
@@ -276,7 +280,7 @@ public class NoteImplimentation implements NoteService {
 	}
 	
 	@Transactional
-	@Override
+	@Override//its used for  searchByid a note
 	public NoteInformation searchByid(Long noteId) throws IOException {
 		NoteInformation notes=elasticSevice.searchByNoteId(noteId);
 		if(notes!=null) {
@@ -289,7 +293,7 @@ public class NoteImplimentation implements NoteService {
 	}
 	
 	@Transactional
-	@Override
+	@Override//its used for  searchBy title a note using elastic search
 	public List<NoteInformation> searchByTitle(String title) throws IOException {
 		List<NoteInformation> notes=elasticSevice.searchByTitle(title);
 		if(notes!=null) {

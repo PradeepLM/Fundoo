@@ -15,7 +15,11 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
-
+/**
+ * 
+ * @author pradeep
+ *
+ */
 @Data
 @Entity
 @Table(name = "label_info")

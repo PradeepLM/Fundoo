@@ -4,6 +4,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
+/**
+ * 
+ * @author pradeep
+ *
+ */
 @Data
 public class PasswordUpdate {
 	@NotNull(message="email may not null")

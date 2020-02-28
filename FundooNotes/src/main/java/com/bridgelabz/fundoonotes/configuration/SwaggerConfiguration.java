@@ -8,9 +8,13 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
+/**
+ * 
+ * @author pradeep
+ *
+ */
 @EnableSwagger2
-@Configuration
+@Configuration//Swagger makes documenting your RESTful services easy
 public class SwaggerConfiguration {
 	@Bean
 	public Docket api() { 

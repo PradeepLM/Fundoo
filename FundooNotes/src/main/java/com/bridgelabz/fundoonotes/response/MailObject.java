@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class MailObject implements Serializable {
 
 	/**
-	 * 
+	 * @author pradeep
 	 */
 	private static final long serialVersionUID = 1L;
 	private String email;

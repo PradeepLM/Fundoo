@@ -4,8 +4,13 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
+/**
+ * 
+ * @author pradeep
+ *
+ */
 @Data
-@Component
+@Component//its class used for attribute of user
 public class UserDto {
 
 	// private long userId;
