@@ -29,7 +29,7 @@ import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 import com.bridgelabz.fundoonotes.utility.MailServiceProvider;
 
 @Service // used to write business logic in a different layers
-public class ServiceImplimentation implements Services {
+public class UserServiceImplimentation implements Services {
 	UserInformation userInformation = new UserInformation();
 	@Autowired // is used for automatic dependency injection.
 	private UserRepository repository;

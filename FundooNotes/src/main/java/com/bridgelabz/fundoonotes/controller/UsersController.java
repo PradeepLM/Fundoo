@@ -3,6 +3,7 @@ package com.bridgelabz.fundoonotes.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,12 +30,12 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 
- * @author user
+ * @author pradeep
  *
  */
 //It is a specialization of @Component is auto detected through class path scanning.
 @RestController
-public class UserController {
+public class UsersController {
 	@Autowired // This annotation allows Spring to resolve and inject collaborating beans into
 				// your bean
 	private Services service;
@@ -44,6 +45,7 @@ public class UserController {
 	/* api for registration */
 	// annotated methods handle the HTTP POST requests matched with given URI
 	// expression
+	@CachePut(value="user", key="#token")
 	@ApiOperation(value = "its api for registration", response = Response.class)
 	@PostMapping("/user/register")
 	// ResponseEntity represents the whole HTTP response: status code, headers, and
@@ -61,6 +63,7 @@ public class UserController {
 	/* api for login */
 	@ApiOperation(value = "its api for login", response = Response.class)
 	@PostMapping("/user/login")
+	@CachePut(value="user", key="#token")
 	public ResponseEntity<UserDetail> login(@RequestBody LoginInformation information) {
 		UserInformation userInformation = service.login(information);
 		if (userInformation != null) {
@@ -126,7 +129,6 @@ public class UserController {
 	public ResponseEntity<Response> getoneUser(@RequestHeader("token") String token) {
 		return service.getsingleUser(token);
 	}
-	
 	@PostMapping("/addCollabrator")
 	public ResponseEntity<Response> addCollabrator(@RequestParam ("noteId") Long noteId,@RequestParam("email") String email,@RequestHeader ("token") String token){
 		NoteInformation note=service.addCollabrator(noteId,email,token);

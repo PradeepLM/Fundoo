@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
  *@purpose :controller controls the data flow into model object and updates the view whenever data changes
  */
 @RestController
-public class LabelController {
+public class LabelesController {
 	@Autowired
 	private LabelService service;
 

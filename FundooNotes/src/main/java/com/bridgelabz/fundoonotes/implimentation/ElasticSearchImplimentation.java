@@ -21,7 +21,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bridgelabz.fundoonotes.configuration.ElasticSearchConfig;
+import com.bridgelabz.fundoonotes.configuration.ElasticSearchConfiguration;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.service.ElasticSearchService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +35,7 @@ public class ElasticSearchImplimentation implements ElasticSearchService{
 	@Autowired
 	private ObjectMapper objectMapper;//provides functionality for reading and writing JSON
 	@Autowired
-	private ElasticSearchConfig elasticSearchConfig;
+	private ElasticSearchConfiguration elasticSearchConfig;
 	private String INDEX="springboot";
 	private String TYPE="NotesInfo";
 	
@@ -64,7 +64,7 @@ public class ElasticSearchImplimentation implements ElasticSearchService{
 		}
 		return deleteResponse.getResult().name();
 	}
-	@Override
+	@Override//its search by id notes under elastic search
 	public NoteInformation searchByNoteId(Long noteId) throws IOException {
 		
 		GetRequest getRequest = new GetRequest(INDEX, TYPE, noteId.toString());
@@ -74,7 +74,7 @@ public class ElasticSearchImplimentation implements ElasticSearchService{
 
         return objectMapper.convertValue(resultMap, NoteInformation.class);
 	}
-	@Override
+	@Override////its search by title notes under elastic search
 	public List<NoteInformation> searchByTitle(String title) throws IOException {
 		SearchRequest searchRequest = new SearchRequest("springboot");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();

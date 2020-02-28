@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 //configuration file has been created to create a Transport client
 //which connects to the Elasticsearch cluster node
-public class ElasticSearchConfig {
+public class ElasticSearchConfiguration {
 	@Bean(destroyMethod = "close")
 	public RestHighLevelClient client() {
 		RestHighLevelClient restclient = new RestHighLevelClient(

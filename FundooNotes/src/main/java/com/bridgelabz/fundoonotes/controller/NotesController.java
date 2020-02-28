@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
  * @purpose: controller controls the data flow into model object and updates the view whenever data changes  
  */
 @RestController
-public class NoteController {
+public class NotesController {
 	@Autowired
 	private NoteService service;
 

@@ -17,7 +17,7 @@ import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 
 @Repository
-public class UserrepositoryImpl<T> implements UserRepository {
+public class UserrepositoryImplimentation<T> implements UserRepository {
 	// @PersistenceContext//inject an Entity Manager into their DAO classes.
 	@Autowired
 	@PersistenceContext
