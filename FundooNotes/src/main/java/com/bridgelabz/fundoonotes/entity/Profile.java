@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
+
 public class Profile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
