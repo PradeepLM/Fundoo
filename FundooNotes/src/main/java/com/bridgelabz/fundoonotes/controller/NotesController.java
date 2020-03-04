@@ -39,7 +39,7 @@ public class NotesController {
 	@PostMapping("/note/create")
 	public ResponseEntity<Response> create(@RequestBody NoteDto information, @RequestHeader("token") String token) {
 		service.createNote(information, token);
-		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("note created", 200, information));
+		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("note created",information));
 	}
 
 	/* api for updating a note */
@@ -47,7 +47,7 @@ public class NotesController {
 	@PutMapping("/note/update")
 	public ResponseEntity<Response> update(@RequestBody NoteUpdate note, @RequestHeader("token") String token) {
 		service.updateNote(note, token);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note updated", 200, note));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note updated", note));
 
 	}
 
@@ -56,7 +56,7 @@ public class NotesController {
 	@PostMapping("/note/archieve/{id}")
 	public ResponseEntity<Response> archieve(@PathVariable Long id, @RequestHeader("token") String token) {
 		service.archievNote(id, token);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("note archieved", 200));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("note archieved"));
 	}
 
 	/* api for pin a note */
@@ -64,7 +64,7 @@ public class NotesController {
 	@PostMapping("/note/pin/{id}")
 	public ResponseEntity<Response> pin(@PathVariable Long id, @RequestHeader("token") String token) {
 		service.pin(id, token);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("note pinned", 200));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("note pinned"));
 	}
 
 	/* api for delete a note */
@@ -72,7 +72,7 @@ public class NotesController {
 	@DeleteMapping("/note/delete/{id}")
 	public ResponseEntity<Response> delete(@PathVariable Long id, @RequestHeader("token") String token) {
 		service.deleteNote(id, token);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note deleted", 200));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note deleted"));
 
 	}
 
@@ -81,7 +81,7 @@ public class NotesController {
 	@DeleteMapping("/note/deletePermently/{id}")
 	public ResponseEntity<Response> deletePerment(@PathVariable Long id, @RequestHeader("token") String token) {
 		service.deletePermently(id, token);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note deleted", 200));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note deleted"));
 	}
 
 	/* api for updating color to note */
@@ -90,7 +90,7 @@ public class NotesController {
 	public ResponseEntity<Response> addColor(@RequestParam("noteId") Long noteId, @RequestParam("color") String color,
 			@RequestHeader("token") String token) {
 		service.addColor(noteId, token, color);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note color Changed", 200));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Note color Changed"));
 
 	}
 
@@ -99,7 +99,7 @@ public class NotesController {
 	@GetMapping("/note/getArchieve/{id}")
 	public ResponseEntity<Response> getArchieve(@RequestHeader("token") String token) {
 		List<NoteInformation> list = service.getArchieved(token);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("archieve notes", 200, list));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("archieve notes", list));
 
 	}
 
@@ -108,7 +108,7 @@ public class NotesController {
 	@GetMapping("/note/getTrashed/{id}")
 	public ResponseEntity<Response> getTrashed(@RequestHeader("token") String token) {
 		List<NoteInformation> list = service.getTrashed(token);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("trashed notes", 200, list));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("trashed notes",  list));
 
 	}
 
@@ -117,7 +117,7 @@ public class NotesController {
 	@GetMapping("/note/getAllNotes/{id}")
 	public ResponseEntity<Response> getAllNotes(@RequestHeader("token") String token) {
 		List<NoteInformation> list = service.getAllNotes(token);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("All Notes", 200, list));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("All Notes",  list));
 	}
 	
 	/*api for adding reminder to notes*/
@@ -125,7 +125,7 @@ public class NotesController {
 	@PutMapping("/note/addReminder/{id}")
 	public ResponseEntity<Response> addReminder(@RequestHeader("token") String token,@RequestParam("noteId") Long noteId,@RequestBody RemainderDto remainder){
 		service.addReminder(noteId, token, remainder);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("Reminder Notes", 200,remainder));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Reminder Notes", remainder));
 		
 	}
 	
@@ -134,21 +134,21 @@ public class NotesController {
 	@PutMapping("/note/removeReminder/{id}")
 	public ResponseEntity<Response> removeRemainder(@RequestHeader("token") String token,@RequestParam ("noteId") Long noteId,@RequestBody RemainderDto remainder){
 		service.removeReminder(noteId, token, remainder);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("Reminder Notes", 200,remainder));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Reminder Notes", remainder));
 		
 	}
 	/*api for searching id using elastic search*/
 	@GetMapping("/note/searchById")
 	public ResponseEntity<Response> search(@RequestParam ("noteId") Long noteId,@RequestHeader("token") String token) throws IOException{
 		NoteInformation notes=service.searchByid(noteId);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("the notes are", 200, notes));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("the notes are", notes));
 	}
 	
 	/*api for searching id using elastic search*/
 	@GetMapping("/note/searchByTitle")
 	public ResponseEntity<Response> search(@RequestParam ("title") String title,@RequestHeader("token") String token) throws IOException{
 		List<NoteInformation> notes=service.searchByTitle(title);
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("the notes are", 200, notes));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("the notes are", notes));
 	}
 	
 	

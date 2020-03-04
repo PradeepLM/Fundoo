@@ -31,21 +31,21 @@ public class ProfilePicController {
 	@PostMapping("/uploadProfilePic")
 	public ResponseEntity<Response> addProfilePic(@ModelAttribute MultipartFile file,@RequestHeader("token") String token){
 		Profile profile=profileService.storePicsInS3(file,file.getOriginalFilename(),file.getContentType(),token);
-		return profile.getUserLabel()!=null?ResponseEntity.status(HttpStatus.OK).body(new Response("added pics sucessfully", 200, profile)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("something wrong in adding",400, profile));		
+		return profile.getUserLabel()!=null?ResponseEntity.status(HttpStatus.OK).body(new Response("added pics sucessfully", profile)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("something wrong in adding"));		
 	}
 	
 	@ApiOperation(value = "Api to update profile pic ", response = Response.class)
 	@PostMapping("/updateProfilePics")
 	public ResponseEntity<Response> updateProfile(@ModelAttribute MultipartFile file,@RequestHeader("token") String token){
 			Profile profile=profileService.updateProfilePic(file,file.getOriginalFilename(),file.getContentType(),token);
-			return profile.getUserLabel()!=null?ResponseEntity.status(HttpStatus.OK).body(new Response("updated sucessfully", 200, profile)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("something wrong in updating",400, profile));		
+			return profile.getUserLabel()!=null?ResponseEntity.status(HttpStatus.OK).body(new Response("updated sucessfully", profile)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("something wrong in updating"));		
 	}
 	
 	@ApiOperation(value = "Api to getting profile pic info", response = Response.class)
 	@GetMapping("/getProfilePic")
 	public ResponseEntity<Response> getprofilePic(@RequestHeader ("token") String token){
 		S3Object s3=profileService.getProfilePic(token);
-		return s3!=null ? ResponseEntity.status(HttpStatus.OK).body(new Response("profile pics are", 200, s3)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("somthing wrong",400, s3));		 
+		return s3!=null ? ResponseEntity.status(HttpStatus.OK).body(new Response("profile pics are", s3)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("somthing wrong");		 
 		
 	}
 	
