@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bridgelabz.fundoonotes.configuration.RabbitMQSender;
 import com.bridgelabz.fundoonotes.dto.LoginInformation;
 import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.dto.UserDto;
@@ -45,6 +46,8 @@ public class UserServiceImplimentation implements Services {
 	private MailObject mailObject;
 	@Autowired
 	private NoteRepository noteRepository;
+	@Autowired
+	private RabbitMQSender rabbitMQSender;
 
 	@Override//its used for registration by user
 	public boolean register(UserDto information) {
@@ -62,7 +65,8 @@ public class UserServiceImplimentation implements Services {
 			mailObject.setEmail(information.getEmail());
 			mailObject.setMessage(mailResponse);
 			mailObject.setSubject("verification");
-			MailServiceProvider.sendMail(mailObject.getEmail(), mailObject.getSubject(), mailObject.getMessage());
+			//MailServiceProvider.sendMail(mailObject.getEmail(), mailObject.getSubject(), mailObject.getMessage());
+			rabbitMQSender.send(mailObject);
 			return true;
 		}
 

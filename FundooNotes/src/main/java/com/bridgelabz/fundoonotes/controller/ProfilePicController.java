@@ -34,13 +34,14 @@ public class ProfilePicController {
 		return profile.getUserLabel()!=null?ResponseEntity.status(HttpStatus.OK).body(new Response("added pics sucessfully", 200, profile)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("something wrong in adding",400, profile));		
 	}
 	
-	@ApiOperation(value = "Api to update profile pic of User for Fundoonotes", response = Response.class)
+	@ApiOperation(value = "Api to update profile pic ", response = Response.class)
 	@PostMapping("/updateProfilePics")
 	public ResponseEntity<Response> updateProfile(@ModelAttribute MultipartFile file,@RequestHeader("token") String token){
 			Profile profile=profileService.updateProfilePic(file,file.getOriginalFilename(),file.getContentType(),token);
 			return profile.getUserLabel()!=null?ResponseEntity.status(HttpStatus.OK).body(new Response("updated sucessfully", 200, profile)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("something wrong in updating",400, profile));		
 	}
 	
+	@ApiOperation(value = "Api to getting profile pic info", response = Response.class)
 	@GetMapping("/getProfilePic")
 	public ResponseEntity<Response> getprofilePic(@RequestHeader ("token") String token){
 		S3Object s3=profileService.getProfilePic(token);
