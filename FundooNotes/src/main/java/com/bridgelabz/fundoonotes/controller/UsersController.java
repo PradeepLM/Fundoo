@@ -54,9 +54,9 @@ public class UsersController {
 		boolean result = service.register(information);
 		if (result) {
 			return ResponseEntity.status(HttpStatus.CREATED)
-					.body(new Response("registration sucessfully", 200, information));
+					.body(new Response("registration sucessfully", information));
 		}
-		return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(new Response("user alerday exit", 400, information));
+		return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(new Response("user alerday exit"));
 
 	}
 
@@ -82,10 +82,10 @@ public class UsersController {
 
 		boolean update = service.verify(token);
 		if (update) {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified", 200, token));
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified",token));
 		}
 
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("not verified", 400));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("not verified"));
 
 	}
 	
@@ -95,10 +95,10 @@ public class UsersController {
 	public ResponseEntity<Response> forgotPassword(@RequestParam("email") String email) {
 		boolean result = service.isUserExist(email);
 		if (result) {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified", 200, email));
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified", email));
 		}
 
-		return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body(new Response("not verfied", 400, email));
+		return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body(new Response("not verfied"));
 
 	}
 
@@ -109,9 +109,9 @@ public class UsersController {
 		boolean result = service.update(update, token);
 		if (result) {
 			return ResponseEntity.status(HttpStatus.ACCEPTED)
-					.body(new Response("Password updated sucessfully", 200, update));
+					.body(new Response("Password updated sucessfully", update));
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("Password does't match", 400, update));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("Password does't match"));
 	}
 
 	/* api getting all user details */
@@ -119,7 +119,7 @@ public class UsersController {
 	@GetMapping("user/getusers")
 	public ResponseEntity<Response> getUsers() {
 		List<UserInformation> users = service.getUsers();
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("the users are", 200, users));
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("the users are", users));
 
 	}
 
@@ -132,19 +132,19 @@ public class UsersController {
 	@PostMapping("/addCollabrator")
 	public ResponseEntity<Response> addCollabrator(@RequestParam ("noteId") Long noteId,@RequestParam("email") String email,@RequestHeader ("token") String token){
 		NoteInformation note=service.addCollabrator(noteId,email,token);
-		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("added collabrator", 200,note));
+		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("added collabrator",note));
 		
 	}
 	
 	@GetMapping("/getCollabrator")
 	public ResponseEntity<Response> getCollabrator(@RequestParam("noteId") Long noteId,@RequestParam("email") String email,@RequestHeader("token") String token){
 		List<NoteInformation> note=service.getCollabNote(noteId,email,token);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("The notes are", 200, note));
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("The notes are", note));
 	}
 	@DeleteMapping("/remove collabrator")
 	public ResponseEntity<Response> removeCollabrator(@RequestParam("noteId") Long noteId,@RequestParam("email") String email,@RequestHeader("token") String token){
 		NoteInformation note=service.removeCollabrator(noteId,email,token);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("collbrate note is removed", 200,note));
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("collbrate note is removed", note));
 		
 	}
 	

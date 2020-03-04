@@ -23,6 +23,15 @@ public class Response {
 		this.statuscode = statuscode;
 		this.obj = obj;
 	}
+	public Response(String message, Object obj) {
+		this.message = message;
+		this.obj = obj;
+	}
+
+	public Response(String message) {
+		this.message = message;
+	}
+
 	public String getMessage() {
 		return message;
 	}
