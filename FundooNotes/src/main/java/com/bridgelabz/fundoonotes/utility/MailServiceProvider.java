@@ -10,9 +10,12 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+
+import com.bridgelabz.fundoonotes.response.MailObject;
 /**
  * 
  * @author pradeep
@@ -57,6 +60,14 @@ public class MailServiceProvider {
 			e.printStackTrace();
 			System.out.println("exception occured while sending mail");
 		}
+	}
+	
+
+	@RabbitListener(queues = "rmq.rube.queue")
+	public void recievedMessage(MailObject user) {
+	
+		sendMail(user.getEmail(),user.getSubject(),user.getMessage());
+		System.out.println("Recieved Message From RabbitMQ: " + user);
 	}
 
 }

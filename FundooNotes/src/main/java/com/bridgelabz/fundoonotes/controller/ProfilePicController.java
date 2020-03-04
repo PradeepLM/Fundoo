@@ -45,7 +45,7 @@ public class ProfilePicController {
 	@GetMapping("/getProfilePic")
 	public ResponseEntity<Response> getprofilePic(@RequestHeader ("token") String token){
 		S3Object s3=profileService.getProfilePic(token);
-		return s3!=null ? ResponseEntity.status(HttpStatus.OK).body(new Response("profile pics are", s3)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("somthing wrong");		 
+		return s3!=null ? ResponseEntity.status(HttpStatus.OK).body(new Response("profile pics are", 200, s3)):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("somthing wrong",400, s3));		 
 		
 	}
 	
