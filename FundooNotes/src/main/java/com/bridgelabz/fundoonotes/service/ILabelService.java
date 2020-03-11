@@ -7,7 +7,7 @@ import com.bridgelabz.fundoonotes.dto.LabelUpdate;
 import com.bridgelabz.fundoonotes.entity.LabelInformation;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 
-public interface LabelService {
+public interface ILabelService {
 
 	void createLabel(LabelDto label, String token);
 

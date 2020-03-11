@@ -21,7 +21,7 @@ import com.bridgelabz.fundoonotes.dto.NoteUpdate;
 import com.bridgelabz.fundoonotes.dto.RemainderDto;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.response.Response;
-import com.bridgelabz.fundoonotes.service.NoteService;
+import com.bridgelabz.fundoonotes.service.INoteService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class NotesController {
 	@Autowired
-	private NoteService service;
+	private INoteService service;
 
 	/* API for creating a Note */
 	@ApiOperation(value = "its api for  create note", response = Response.class)

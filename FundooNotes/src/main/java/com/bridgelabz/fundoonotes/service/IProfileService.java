@@ -11,7 +11,7 @@ import com.bridgelabz.fundoonotes.entity.Profile;
  *
  */
 
-public interface ProfileService {
+public interface IProfileService {
 
 	Profile storePicsInS3(MultipartFile file, String originalFilename, String contentType, String token);
 

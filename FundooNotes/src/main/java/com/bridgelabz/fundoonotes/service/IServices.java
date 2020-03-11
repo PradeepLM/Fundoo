@@ -11,7 +11,7 @@ import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.response.Response;
 
-public interface Services {
+public interface IServices {
 	boolean register(UserDto information);
 
 	UserInformation login(LoginInformation information);

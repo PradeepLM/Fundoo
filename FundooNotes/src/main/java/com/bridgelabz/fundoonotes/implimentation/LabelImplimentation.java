@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundoonotes.dto.LabelDto;
@@ -12,11 +13,13 @@ import com.bridgelabz.fundoonotes.dto.LabelUpdate;
 import com.bridgelabz.fundoonotes.entity.LabelInformation;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
+import com.bridgelabz.fundoonotes.exception.LabelException;
+import com.bridgelabz.fundoonotes.exception.NoteException;
 import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.repository.LabelRepository;
 import com.bridgelabz.fundoonotes.repository.NoteRepository;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
-import com.bridgelabz.fundoonotes.service.LabelService;
+import com.bridgelabz.fundoonotes.service.ILabelService;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 /**
  * 
@@ -24,7 +27,7 @@ import com.bridgelabz.fundoonotes.utility.JwtGenerator;
  *
  */
 @Service
-public class LabelImplimentation implements LabelService {
+public class LabelImplimentation implements ILabelService {
 
 	private UserInformation user = new UserInformation();
 	@Autowired
@@ -46,7 +49,7 @@ public class LabelImplimentation implements LabelService {
 		try {
 			id = (Long) tokenGenrator.parseJwt(token);
 		} catch (Exception e) {
-			throw new UserException("user does not exist");
+			throw new UserException("user does not exist",HttpStatus.NOT_FOUND);
 		}
 		UserInformation user = userRepository.getUserById(id);
 		if (user != null) {
@@ -56,10 +59,10 @@ public class LabelImplimentation implements LabelService {
 				labelInformation.setUserId(user.getUserId());
 				labelRepository.save(labelInformation);
 			} else {
-				throw new UserException("label with that name is already present ");
+				throw new LabelException("label with that name is already present ",HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			throw new UserException("Note doesn't exit with userId");
+			throw new NoteException("Note doesn't exit with userId",HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -88,7 +91,7 @@ public class LabelImplimentation implements LabelService {
 		try {
 			id = tokenGenrator.parseJwt(token);
 		} catch (Exception e) {
-			throw new UserException("user does not exist");
+			throw new UserException("user does not exist",HttpStatus.NOT_FOUND);
 		}
 		UserInformation user = userRepository.getUserById(id);
 		if (user != null) {
@@ -97,10 +100,10 @@ public class LabelImplimentation implements LabelService {
 				labelinfo.setName(label.getLabelName());
 				labelRepository.save(labelinfo);
 			} else {
-				throw new UserException("Name with label dosn't exit");
+				throw new LabelException("Name with label dosn't exit",HttpStatus.NOT_FOUND);
 			}
 		} else {
-			throw new UserException("user dosn't exit");
+			throw new UserException("user dosn't exit",HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -111,7 +114,7 @@ public class LabelImplimentation implements LabelService {
 		try {
 			id = tokenGenrator.parseJwt(token);
 		} catch (Exception e) {
-			throw new UserException("user doesn't exit");
+			throw new UserException("user doesn't exit",HttpStatus.NOT_FOUND);
 		}
 		UserInformation user = userRepository.getUserById(id);
 		if (user != null) {
@@ -119,7 +122,7 @@ public class LabelImplimentation implements LabelService {
 			if (labelinfo != null) {
 				labelRepository.deleteLabel(label.getLabelId());
 			} else {
-				throw new UserException("Note does not exit");
+				throw new NoteException("Note does not exit",HttpStatus.NOT_FOUND);
 			}
 		}
 	}
@@ -131,7 +134,7 @@ public class LabelImplimentation implements LabelService {
 		try {
 			id = tokenGenrator.parseJwt(token);
 		} catch (Exception e) {
-			throw new UserException("user doesn't exit");
+			throw new UserException("user doesn't exit",HttpStatus.NOT_FOUND);
 		}
 		List<LabelInformation> labels = labelRepository.fetchLabelId(id);
 		return labels;
@@ -167,7 +170,7 @@ public class LabelImplimentation implements LabelService {
 				
 			}
 		} catch (Exception e) {
-			throw new UserException("user dosnot exit");
+			throw new UserException("user dosnot exit",HttpStatus.NOT_FOUND);
 		}
 	}
 

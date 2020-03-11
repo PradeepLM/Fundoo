@@ -19,7 +19,7 @@ import com.bridgelabz.fundoonotes.dto.LabelUpdate;
 import com.bridgelabz.fundoonotes.entity.LabelInformation;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.response.Response;
-import com.bridgelabz.fundoonotes.service.LabelService;
+import com.bridgelabz.fundoonotes.service.ILabelService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class LabelesController {
 	@Autowired
-	private LabelService service;
+	private ILabelService service;
 
 	/* api for creating label */
 	@ApiOperation(value = "its creates label with usernote ", response = Response.class)

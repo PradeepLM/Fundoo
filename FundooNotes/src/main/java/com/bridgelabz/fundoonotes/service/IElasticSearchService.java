@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 
-public interface ElasticSearchService {
+public interface IElasticSearchService {
 	String CreateNote(NoteInformation note);
 
 	String deleteNote(NoteInformation noteinf);

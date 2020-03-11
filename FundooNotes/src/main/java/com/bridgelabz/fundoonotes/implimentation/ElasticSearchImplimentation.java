@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundoonotes.configuration.ElasticSearchConfiguration;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
-import com.bridgelabz.fundoonotes.service.ElasticSearchService;
+import com.bridgelabz.fundoonotes.service.IElasticSearchService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * 
@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @purpose: its used for create delete and search by title using elastic search
  */
 @Service
-public class ElasticSearchImplimentation implements ElasticSearchService{
+public class ElasticSearchImplimentation implements IElasticSearchService{
 	@Autowired
 	private ObjectMapper objectMapper;//provides functionality for reading and writing JSON
 	@Autowired

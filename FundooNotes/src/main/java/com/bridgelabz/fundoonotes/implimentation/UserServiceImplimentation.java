@@ -25,12 +25,12 @@ import com.bridgelabz.fundoonotes.repository.UserRepository;
 import com.bridgelabz.fundoonotes.response.MailObject;
 import com.bridgelabz.fundoonotes.response.MailResponse;
 import com.bridgelabz.fundoonotes.response.Response;
-import com.bridgelabz.fundoonotes.service.Services;
+import com.bridgelabz.fundoonotes.service.IServices;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 import com.bridgelabz.fundoonotes.utility.MailServiceProvider;
 
 @Service // used to write business logic in a different layers
-public class UserServiceImplimentation implements Services {
+public class UserServiceImplimentation implements IServices {
 	UserInformation userInformation = new UserInformation();
 	@Autowired // is used for automatic dependency injection.
 	private UserRepository repository;
@@ -70,7 +70,7 @@ public class UserServiceImplimentation implements Services {
 			return true;
 		}
 
-		throw new UserException("user already exists with the same mail id");
+		throw new UserException("user already exists with the same mail id",HttpStatus.NOT_FOUND);
 	}
 
 	@Transactional
@@ -119,7 +119,7 @@ public class UserServiceImplimentation implements Services {
 			}
 
 		} catch (Exception e) {
-			throw new UserException("User doesn't exist");
+			throw new UserException("User doesn't exist",HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -134,7 +134,7 @@ public class UserServiceImplimentation implements Services {
 			return repository.upDate(information, id);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new UserException("invalid password");
+			throw new UserException("invalid password",HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -175,7 +175,7 @@ public class UserServiceImplimentation implements Services {
 			Long userId=generate.parseJwt(token);
 			user=repository.getUserById(userId);
 		} catch (Exception e) {
-			throw new UserException("user is not present given your email id");
+			throw new UserException("user is not present given your email id",HttpStatus.NOT_FOUND);
 		}
 		if(user!=null) {
 			if(collabrator!=null) {
@@ -183,10 +183,10 @@ public class UserServiceImplimentation implements Services {
 				collabrator.getColbrateNote().add(note);
 				return note;
 			}else {
-				throw new UserException("Given Email is not present");
+				throw new UserException("Given Email is not present",HttpStatus.NOT_FOUND);
 			}
 		}else {
-			throw new UserException("collabrator is not present");
+			throw new UserException("collabrator is not present",HttpStatus.NOT_FOUND);
 		}
 	}
 	@Transactional
@@ -207,7 +207,7 @@ public class UserServiceImplimentation implements Services {
 			Long userId=generate.parseJwt(token);
 			user=repository.getUserById(userId);
 		} catch (Exception e) {
-			throw new UserException("user is not present given your email id");
+			throw new UserException("user is not present given your email id",HttpStatus.NOT_FOUND);
 		}
 		NoteInformation note=noteRepository.findById(noteId);
 		note.getColabratorUser().remove(collabrator);

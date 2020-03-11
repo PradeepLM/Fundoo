@@ -8,7 +8,7 @@ import com.bridgelabz.fundoonotes.dto.NoteUpdate;
 import com.bridgelabz.fundoonotes.dto.RemainderDto;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 
-public interface NoteService {
+public interface INoteService {
 	void createNote(NoteDto information, String token);
 
 	void updateNote(NoteUpdate note, String token);

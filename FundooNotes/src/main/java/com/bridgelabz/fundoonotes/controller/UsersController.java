@@ -23,7 +23,7 @@ import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.response.Response;
 import com.bridgelabz.fundoonotes.response.UserDetail;
-import com.bridgelabz.fundoonotes.service.Services;
+import com.bridgelabz.fundoonotes.service.IServices;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiOperation;
 public class UsersController {
 	@Autowired // This annotation allows Spring to resolve and inject collaborating beans into
 				// your bean
-	private Services service;
+	private IServices service;
 	@Autowired
 	private JwtGenerator generate;
 

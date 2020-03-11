@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.fundoonotes.dto.NoteDto;
@@ -16,11 +17,12 @@ import com.bridgelabz.fundoonotes.dto.RemainderDto;
 import com.bridgelabz.fundoonotes.entity.LabelInformation;
 import com.bridgelabz.fundoonotes.entity.NoteInformation;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
+import com.bridgelabz.fundoonotes.exception.NoteException;
 import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.repository.NoteRepository;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
-import com.bridgelabz.fundoonotes.service.ElasticSearchService;
-import com.bridgelabz.fundoonotes.service.NoteService;
+import com.bridgelabz.fundoonotes.service.IElasticSearchService;
+import com.bridgelabz.fundoonotes.service.INoteService;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 /**
  * 
@@ -28,7 +30,7 @@ import com.bridgelabz.fundoonotes.utility.JwtGenerator;
  *
  */
 @Service
-public class NoteImplimentation implements NoteService {
+public class NoteImplimentation implements INoteService {
 	@Autowired
 	private JwtGenerator tokenGenerator;
 	@Autowired
@@ -40,7 +42,7 @@ public class NoteImplimentation implements NoteService {
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-	private ElasticSearchService elasticSevice;
+	private IElasticSearchService elasticSevice;
 
 	@Transactional
 	@Override//its used for create a note
@@ -68,7 +70,7 @@ public class NoteImplimentation implements NoteService {
 
 			}
 		} catch (Exception e) {
-			throw new UserException("user is not present given by Id");
+			throw new UserException("user is not present given by Id",HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -90,9 +92,9 @@ public class NoteImplimentation implements NoteService {
 				noteinf.setUpDateAndTime(LocalDateTime.now());
 				noteRepository.save(noteinf);
 			} else
-				throw new UserException("user not prsent");
+				throw new UserException("user not prsent",HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
-			throw new UserException("user is not register");
+			throw new UserException("user is not register",HttpStatus.UNAUTHORIZED);
 		}
 	}
 
@@ -110,7 +112,7 @@ public class NoteImplimentation implements NoteService {
 			}
 
 		} catch (Exception e) {
-			throw new UserException("user is not present");
+			throw new UserException("user is not present",HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -127,7 +129,7 @@ public class NoteImplimentation implements NoteService {
 				noteRepository.save(noteinf);
 			}
 		} catch (Exception e) {
-			throw new UserException("user is not present");
+			throw new UserException("user is not present",HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -143,7 +145,7 @@ public class NoteImplimentation implements NoteService {
 				noteRepository.save(noteinf);
 			}
 		} catch (Exception e) {
-			throw new UserException("note is not trashed");
+			throw new UserException("note is not trashed",HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -162,11 +164,11 @@ public class NoteImplimentation implements NoteService {
 				noteRepository.deleteNote(id, userId);
 				elasticSevice.deleteNote(noteinf);
 			}else {
-				throw new UserException("Given not is not present");
+				throw new NoteException("Given note is not present",HttpStatus.NOT_FOUND);
 			}
 
 		} catch (Exception e) {
-			throw new UserException("note is not deleted permently");
+			throw new NoteException("note is not deleted permently",HttpStatus.NOT_FOUND);
 		}
 		return false;
 	}
@@ -183,13 +185,13 @@ public class NoteImplimentation implements NoteService {
 					noteinf.setColour(color);
 					noteRepository.save(noteinf);
 				} else {
-					throw new UserException("note does not exist");
+					throw new NoteException("note does not exist",HttpStatus.NOT_FOUND);
 				}
 			} else {
-				throw new UserException("user does not exists");
+				throw new UserException("user does not exists",HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			throw new UserException("error occured");
+			throw new NoteException("error occured",HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -203,10 +205,10 @@ public class NoteImplimentation implements NoteService {
 				List<NoteInformation> list = noteRepository.getArchievedNotes(userId);
 				return list;
 			} else {
-				throw new UserException("user does not exist");
+				throw new UserException("user does not exist",HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			throw new UserException("not get all archieve");
+			throw new UserException("not get all archieve",HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -220,10 +222,10 @@ public class NoteImplimentation implements NoteService {
 				List<NoteInformation> list = noteRepository.getTrashedNotes(userId);
 				return list;
 			} else {
-				throw new UserException("user does not exist");
+				throw new UserException("user does not exist",HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			throw new UserException("error occured");
+			throw new NoteException("error occured",HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -237,9 +239,9 @@ public class NoteImplimentation implements NoteService {
 				List<NoteInformation> list = noteRepository.getAllNotes(userId);
 				return list;
 			}
-			throw new UserException("user dosn't exit");
+			throw new UserException("user dosn't exit",HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
-			throw new UserException("error occured");
+			throw new NoteException("error occured",HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -254,10 +256,10 @@ public class NoteImplimentation implements NoteService {
 				noteinf.setReminder(remainder.getReminder());
 				noteRepository.save(noteinf);
 			} else {
-				throw new UserException("note dosn't exit");
+				throw new NoteException("note dosn't exit",HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			throw new UserException("error occured");
+			throw new NoteException("error occured",HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -272,10 +274,10 @@ public class NoteImplimentation implements NoteService {
 				noteinf.setReminder(null);
 				noteRepository.save(noteinf);
 			} else {
-				throw new UserException("user doesnot exit");
+				throw new UserException("user doesnot exit",HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			throw new UserException("error occured");
+			throw new UserException("error occured",HttpStatus.NOT_FOUND);
 		}
 	}
 	

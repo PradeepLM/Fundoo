@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.services.s3.model.S3Object;
 import com.bridgelabz.fundoonotes.entity.Profile;
 import com.bridgelabz.fundoonotes.response.Response;
-import com.bridgelabz.fundoonotes.service.ProfileService;
+import com.bridgelabz.fundoonotes.service.IProfileService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 //its api for adding profile pics to aws3 and db
 public class ProfilePicController {
 	@Autowired
-	private ProfileService profileService;
+	private IProfileService profileService;
 	@ApiOperation(value = "its api for  adding profile pic", response = Response.class)
 	@PostMapping("/uploadProfilePic")
 	public ResponseEntity<Response> addProfilePic(@ModelAttribute MultipartFile file,@RequestHeader("token") String token){

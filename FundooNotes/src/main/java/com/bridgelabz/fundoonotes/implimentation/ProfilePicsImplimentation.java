@@ -17,7 +17,7 @@ import com.bridgelabz.fundoonotes.entity.Profile;
 import com.bridgelabz.fundoonotes.entity.UserInformation;
 import com.bridgelabz.fundoonotes.repository.ProfilePicsRepository;
 import com.bridgelabz.fundoonotes.repository.UserRepository;
-import com.bridgelabz.fundoonotes.service.ProfileService;
+import com.bridgelabz.fundoonotes.service.IProfileService;
 import com.bridgelabz.fundoonotes.utility.JwtGenerator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
-public class ProfilePicsImplimentation implements ProfileService {
+public class ProfilePicsImplimentation implements IProfileService {
 	@Autowired
 	private ProfilePicsRepository profilePicsRepository;
 	@Autowired
