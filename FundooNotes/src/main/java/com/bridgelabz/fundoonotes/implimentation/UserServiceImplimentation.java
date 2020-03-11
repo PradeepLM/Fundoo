@@ -79,16 +79,26 @@ public class UserServiceImplimentation implements IServices {
 		UserInformation user = repository.getUser(information.getEmail());
 		if (user != null) {
 			if ((user.isVerified() == true) && (enceryption.matches(information.getPassword(), user.getPassword())))
-			
-				System.out.println(generate.jwtToken(user.getUserId()));
+			{
+				//System.out.println(generate.jwtToken(user.getUserId()));
 			return user;
-		} else {
+			}else
+			{
+				throw new UserException("uaer not exist",HttpStatus.NOT_FOUND);
+				
+			}
+		}
+		/*} else {
 			String mailResponse = response.fromMessage("http://localhost:8080/verify",
 					generate.jwtToken(user.getUserId()));
 			MailServiceProvider.sendMail(information.getEmail(), "verification", mailResponse);
-			return null;
-		}
 
+			
+		}
+		*/
+		throw new UserException("user already exists with the same mail id",HttpStatus.BAD_REQUEST);
+
+		
 	}
 
 	public String generateToken(Long id) {
