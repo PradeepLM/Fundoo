@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ import io.swagger.annotations.ApiOperation;
  */
 //It is a specialization of @Component is auto detected through class path scanning.
 @RestController
+@CrossOrigin("*")
 public class UsersController {
 	@Autowired // This annotation allows Spring to resolve and inject collaborating beans into
 				// your bean
