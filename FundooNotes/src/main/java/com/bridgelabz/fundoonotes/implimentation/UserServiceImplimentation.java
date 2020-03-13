@@ -76,6 +76,7 @@ public class UserServiceImplimentation implements IServices {
 	@Transactional
 	@Override//its used for login 
 	public UserInformation login(LoginInformation information) {
+		
 		UserInformation user = repository.getUser(information.getEmail());
 		if (user != null) {
 			if ((user.isVerified() == true) && (enceryption.matches(information.getPassword(), user.getPassword())))
@@ -120,8 +121,7 @@ public class UserServiceImplimentation implements IServices {
 		try {
 			UserInformation user = repository.getUser(email);
 			if (user.isVerified() == true) {
-				String mailRespone = response.fromMessage("http://localhost/8080/verify",
-						generate.jwtToken(user.getUserId()));
+				String mailRespone = response.fromMessage(" Link to reset password   http://localhost/8080/resetpassword");
 				MailServiceProvider.sendMail(user.getEmail(), "verification", mailRespone);
 				return true;
 			} else {

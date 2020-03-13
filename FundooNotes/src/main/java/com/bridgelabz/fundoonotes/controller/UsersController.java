@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelabz.fundoonotes.dto.ForgotPassword;
 import com.bridgelabz.fundoonotes.dto.LoginInformation;
 import com.bridgelabz.fundoonotes.dto.PasswordUpdate;
 import com.bridgelabz.fundoonotes.dto.UserDto;
@@ -70,10 +71,9 @@ public class UsersController {
 		UserInformation userInformation = service.login(information);
 		if (userInformation != null) {
 			String token = generate.jwtToken(userInformation.getUserId());
-			return ResponseEntity.status(HttpStatus.ACCEPTED).header("login sucessfully", information.getEmail())
-					.body(new UserDetail(token, 200, information));
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new UserDetail("login succesfull"));
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserDetail("login failed", 400, information));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserDetail("login failed"));
 
 	}
 	
@@ -93,11 +93,11 @@ public class UsersController {
 	
 	/*api for forgot password*/
 	@ApiOperation(value = "its api for forgot password", response = Response.class)
-	@PutMapping("user/forgotpassword")
-	public ResponseEntity<Response> forgotPassword(@RequestParam("email") String email) {
-		boolean result = service.isUserExist(email);
+	@PostMapping("user/forgotpassword")
+	public ResponseEntity<Response> forgotPassword(@RequestBody ForgotPassword user) {
+		boolean result = service.isUserExist(user.getEmail());
 		if (result) {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified", email));
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("verified", user.getEmail()));
 		}
 
 		return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body(new Response("not verfied"));
